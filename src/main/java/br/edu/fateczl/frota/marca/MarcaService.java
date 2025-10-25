@@ -3,6 +3,7 @@ package br.edu.fateczl.frota.marca;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class MarcaService {
     @Autowired
     private MarcaRepository marcaRepository;
 
+    @Transactional
     public Marca salvar(Marca marca) {
         return marcaRepository.save(marca);
     }
@@ -24,6 +26,7 @@ public class MarcaService {
         return marcaRepository.findAll(Sort.by("nome").ascending());
     }
 
+    @Transactional
     public void apagarPorId(Long id) {
         marcaRepository.deleteById(id);
     }
@@ -32,6 +35,7 @@ public class MarcaService {
         return marcaRepository.findById(id);
     }
 
+    @Transactional
     public void atualizarMarca(DadosAtualizacaoMarca dados) {
 
         Marca marca = marcaRepository.findById(dados.id()).orElseThrow(() -> new EntityNotFoundException("Marca não encontrada"));

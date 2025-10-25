@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Controller
@@ -39,7 +38,6 @@ public class MarcaController {
     }
 
     @DeleteMapping
-    @Transactional
     public String excluir(Long id) {
 
         marcaService.apagarPorId(id);
@@ -47,9 +45,8 @@ public class MarcaController {
 
     }
 
-    // Método para gravar/atualizar o formulário
+    // Métoddo para gravar/atualizar o formulário
     @PostMapping
-    @Transactional
     public String cadastrar(@Valid DadosCadastroMarca dados) {
 
         marcaService.salvar(new Marca(dados));
@@ -58,7 +55,6 @@ public class MarcaController {
     }
 
     @PutMapping
-    @Transactional
     public String atualizar(DadosAtualizacaoMarca dados) {
 
         marcaService.atualizarMarca(dados);

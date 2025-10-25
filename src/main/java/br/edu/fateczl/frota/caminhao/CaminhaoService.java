@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import br.edu.fateczl.frota.marca.Marca;
 import br.edu.fateczl.frota.marca.MarcaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class CaminhaoService {
     @Autowired
     private CaminhaoMapper caminhaoMapper;
 
+    @Transactional
     public Caminhao salvarOuAtualizar(AtualizacaoCaminhao dto) {
         // Valida se a marca existe
         Marca marca = marcaService.procurarPorId(dto.marcaId()).orElseThrow(() -> new EntityNotFoundException("Marca não encontrada com ID: " + dto.marcaId()));
@@ -46,6 +48,7 @@ public class CaminhaoService {
         return caminhaoRepository.findAll(Sort.by("modelo").ascending());
     }
 
+    @Transactional
     public void apagarPorId(Long id) {
         caminhaoRepository.deleteById(id);
     }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 
@@ -36,12 +35,13 @@ public class CaminhaoController {
         //devolver DTO
         model.addAttribute("listaVeiculos", caminhaoService.procurarTodos());
         return "caminhao/listagem";
+
     }
 
-    /// /////////////////////
     //Novo GetMapping com DTO e Mapper
     @GetMapping("/formulario")
     public String mostrarFormulario(@RequestParam(required = false) Long id, Model model) {
+
         AtualizacaoCaminhao dto;
         if (id != null) {
             //edição: Carrega dados existentes
@@ -54,6 +54,7 @@ public class CaminhaoController {
         model.addAttribute("caminhao", dto);
         model.addAttribute("marcas", marcaService.procurarTodos());
         return "caminhao/formulario";
+
     }
 
 //	Para criação sem passar o ID
@@ -85,7 +86,6 @@ public class CaminhaoController {
 
     }
 
-
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute("caminhao") @Valid AtualizacaoCaminhao dto, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
 
@@ -107,7 +107,6 @@ public class CaminhaoController {
     }
 
     @GetMapping("/delete/{id}")
-    @Transactional
     public String deleteTutorial(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
 
         try {
@@ -116,7 +115,9 @@ public class CaminhaoController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
+
         return "redirect:/caminhao";
+
     }
 
 }
