@@ -1,15 +1,7 @@
 package br.edu.fateczl.frota.caminhao;
 
 import br.edu.fateczl.frota.marca.Marca;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -46,7 +38,13 @@ public class Caminhao {
 
     private static final double FATOR_CUBAGEM = 300.0;
 
-    private double metragemCubica;
+    @Transient
+    public Double getMetragemCubica() {
+        if (comprimento == null || largura == null || altura == null) {
+            return 0.0;
+        }
+        return comprimento * largura * altura;
+    }
 
     public Caminhao(CadastroCaminhao dados, Marca marca) {
         this.modelo = dados.modelo();

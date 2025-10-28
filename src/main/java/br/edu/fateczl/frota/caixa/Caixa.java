@@ -29,5 +29,4 @@ public class Caixa {
 
     private String material;
 
-
 }
