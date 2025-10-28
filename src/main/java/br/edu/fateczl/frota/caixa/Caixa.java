@@ -21,12 +21,16 @@ public class Caixa {
     @Column(name = "caixa_id")
     private Long id;
 
-    private Integer altura;
+    @Column(nullable = false)
+    private Double comprimento;
 
-    private Integer largura;
+    @Column(nullable = false)
+    private Double largura;
 
-    private Integer comprimento;
+    @Column(nullable = false)
+    private Double altura;
 
-    private String material;
+    @Column(name = "limite_peso", nullable = false)
+    private Double limitePeso;
 
 }
