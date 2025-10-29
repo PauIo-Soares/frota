@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Escolher Caixa</title>
+</head>
+<body>
+<h2>Escolha a Caixa Compatível</h2>
+
+<form th:action="@{/solicitacao/finalizar}" method="post">
+    <input type="hidden" th:name="peso" th:value="${solicitacao.peso}">
+    <input type="hidden" th:name="comprimento" th:value="${solicitacao.comprimento}">
+    <input type="hidden" th:name="largura" th:value="${solicitacao.largura}">
+    <input type="hidden" th:name="altura" th:value="${solicitacao.altura}">
+    <input type="hidden" th:name="cepOrigem" th:value="${solicitacao.cepOrigem}">
+    <input type="hidden" th:name="cepDestino" th:value="${solicitacao.cepDestino}">
+
+    <div th:each="caixa : ${caixasCompativeis}">
+        <p>Caixa ID: <span th:text="${caixa.id}"></span></p>
+        <p>Dimensões:
+            <span th:text="${caixa.comprimento}"></span> x
+            <span th:text="${caixa.largura}"></span> x
+            <span th:text="${caixa.altura}"></span>
+        </p>
+        <p>Peso máximo: <span th:text="${caixa.limitePeso}"></span></p>
+        <button type="submit" th:name="caixaId" th:value="${caixa.id}">Escolher esta</button>
+        <hr>
+    </div>
+</form>
+</body>
+</html>

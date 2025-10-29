@@ -1,5 +1,7 @@
 package br.edu.fateczl.frota.solicitacao;
 
+import br.edu.fateczl.frota.caixa.Caixa;
+
 public record SolicitacaoRequest(
         // Long Id
         // Virar entity tabela
@@ -8,6 +10,6 @@ public record SolicitacaoRequest(
         Double largura,
         Double altura,
         String cepOrigem,
-        String cepDestino
-
+        String cepDestino,
+        Caixa caixaEscolhida
 ) { }

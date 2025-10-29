@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gerenciar Caixas</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f2f2f2;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        input {
+            margin: 5px;
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 6px 12px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .mensagem {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Gerenciar Caixas</h2>
+
+<div th:if="${mensagem}" class="mensagem">
+    <p th:text="${mensagem}"></p>
+</div>
+
+<!-- Criar / Atualizar -->
+<form th:action="@{/caixa/criar}" method="post">
+    <h3>Criar / Atualizar Caixa</h3>
+    <input type="number" step="any" placeholder="ID (para atualizar)" name="id">
+    <input type="number" step="any" placeholder="Altura" name="altura" required>
+    <input type="number" step="any" placeholder="Largura" name="largura" required>
+    <input type="number" step="any" placeholder="Comprimento" name="comprimento" required>
+    <input type="number" step="any" placeholder="Limite de Peso" name="limitePeso" required>
+    <button type="submit">Criar Caixa</button>
+</form>
+
+<form th:action="@{/caixa/atualizar}" method="post">
+    <input type="number" step="any" placeholder="ID para atualizar" name="id" required>
+    <input type="number" step="any" placeholder="Nova Altura" name="altura" required>
+    <input type="number" step="any" placeholder="Nova Largura" name="largura" required>
+    <input type="number" step="any" placeholder="Novo Comprimento" name="comprimento" required>
+    <input type="number" step="any" placeholder="Novo Limite de Peso" name="limitePeso" required>
+    <button type="submit">Atualizar Caixa</button>
+</form>
+
+<!-- Buscar -->
+<form th:action="@{/caixa/buscar}" method="post">
+    <h3>Buscar Caixa por ID</h3>
+    <input type="number" name="id" placeholder="ID da Caixa" required>
+    <button type="submit">Buscar</button>
+</form>
+
+<div th:if="${resultadoBusca}">
+    <h3>Resultado da Busca:</h3>
+    <p>ID: <span th:text="${resultadoBusca.id}"></span></p>
+    <p>Altura: <span th:text="${resultadoBusca.altura}"></span></p>
+    <p>Largura: <span th:text="${resultadoBusca.largura}"></span></p>
+    <p>Comprimento: <span th:text="${resultadoBusca.comprimento}"></span></p>
+    <p>Limite Peso: <span th:text="${resultadoBusca.limitePeso}"></span></p>
+</div>
+
+<!-- Excluir -->
+<form th:action="@{/caixa/excluir}" method="post">
+    <h3>Excluir Caixa</h3>
+    <input type="number" name="id" placeholder="ID da Caixa" required>
+    <button type="submit">Excluir</button>
+</form>
+
+<!-- Listar -->
+<form th:action="@{/caixa/listar}" method="post">
+    <button type="submit">Listar Todas as Caixas</button>
+</form>
+
+<div th:if="${listaCaixas}">
+    <h3>Lista de Caixas</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Altura</th>
+            <th>Largura</th>
+            <th>Comprimento</th>
+            <th>Limite Peso</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="caixa : ${listaCaixas}">
+            <td th:text="${caixa.id}"></td>
+            <td th:text="${caixa.altura}"></td>
+            <td th:text="${caixa.largura}"></td>
+            <td th:text="${caixa.comprimento}"></td>
+            <td th:text="${caixa.limitePeso}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

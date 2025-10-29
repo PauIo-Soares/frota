@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Resultado do Frete</title></head>
+<body>
+<h2>Valor do Frete:</h2>
+<p th:text="'R$ ' + ${valorFrete}"></p>
+<a th:href="@{/solicitacao}">Fazer nova solicitação</a>
+</body>
+</html>
