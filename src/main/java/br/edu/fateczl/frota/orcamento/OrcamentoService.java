@@ -1,9 +1,13 @@
 package br.edu.fateczl.frota.orcamento;
 
+import br.edu.fateczl.frota.solicitacao.GoogleDistanciaService;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoRequest;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class OrcamentoService {
@@ -11,9 +15,12 @@ public class OrcamentoService {
     @Autowired
     private SolicitacaoService solicitacaoService;
 
+    @Autowired
+    private GoogleDistanciaService googleDistanciaService;
+
     private static final Double PRECO_POR_KM = 1.50;
     private static final Double PRECO_POR_KG = 0.50;
-    private static final Double PRECO_POR_PEDAGIO = 20.50;
+    private static final Double PRECO_MEDIO_PEDAGIO_CAMINHAO = 30.00;
     private static final Double PRECO_POR_CAIXA = 10.0;
 
     public Double calcularFrete(SolicitacaoRequest solicitacao) {
@@ -31,24 +38,27 @@ public class OrcamentoService {
 
         valorFrete = tipoCobranca;
 
-        valorFrete += calcularPrecoDistancia();
-        valorFrete += calcularPrecoPedagios();
+        Double distanciaKm = googleDistanciaService.calcularDistanciaEmKm(solicitacao.cepOrigem(), solicitacao.cepDestino());
+
+        valorFrete += calcularPrecoDistancia(distanciaKm);
+        valorFrete += calcularPrecoPedagios(distanciaKm);
+
+        valorFrete = BigDecimal.valueOf(valorFrete).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
         return valorFrete;
 
     }
 
-    // Poderia chamar alguma funcao q calcula a distancia
-    private Double calcularPrecoDistancia() {
-        Double distanciaKm = 50.0;
-        return distanciaKm * PRECO_POR_KM ;
-
+    private Double calcularPrecoDistancia(Double distanciaKm) {
+        return distanciaKm * PRECO_POR_KM;
     }
 
-    // Poderia chamar alguma funçao q retorna qtd de pedagios
-    private Double calcularPrecoPedagios() {
-        Double qtdPedagios = 4.0;
-        return qtdPedagios * PRECO_POR_PEDAGIO;
+    private Double calcularPrecoPedagios(Double distanciaKm) {
+
+        Double qtdPedagiosEmMedia = (distanciaKm / 50.61);
+
+        return qtdPedagiosEmMedia * PRECO_MEDIO_PEDAGIO_CAMINHAO;
+
     }
 
 }
