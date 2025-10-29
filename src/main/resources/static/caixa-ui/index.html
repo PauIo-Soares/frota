@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <!-- Comentário: página estática para gerenciar Caixas via API REST do backend -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caixas • UI</title>
+  
+  <!-- Fallback local e CDN do Materialize -->
+  <link rel="stylesheet" href="/frota/vendor/mz-fallback/materialize-fallback.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/frota/css/style.css" />
+</head>
+<body>
+  <!-- Navbar simples, links para as demais telas -->
+  <nav class="nav-wrapper teal darken-3">
+    <div class="container">
+      <a href="/frota/caminhao" class="brand-logo"><i class="material-icons left">inventory_2</i>Caixas</a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/frota/caminhao"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
+        <li><a href="/frota/marca"><i class="material-icons left">factory</i>Marcas</a></li>
+        <li><a href="/frota/solicitacao"><i class="material-icons left">request_quote</i>Solicitar Frete</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-nav">
+    <li><a href="/frota/caminhao"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
+    <li><a href="/frota/marca"><i class="material-icons left">factory</i>Marcas</a></li>
+    <li><a href="/frota/solicitacao"><i class="material-icons left">request_quote</i>Solicitar Frete</a></li>
+  </ul>
+
+  <div class="container" style="max-width: 1100px;">
+    <!-- Cabeçalho da página -->
+    <div class="section" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <h4 class="teal-text text-darken-3" style="margin:0;">Gerenciar Caixas</h4>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a class="btn teal modal-trigger" href="#modal-form"><i class="material-icons left">add</i>Adicionar</a>
+        <a class="btn teal" href="#" id="btn-buscar"><i class="material-icons left">search</i>Buscar</a>
+        <a class="btn teal" href="#" id="btn-modificar"><i class="material-icons left">edit</i>Modificar</a>
+        <a class="btn teal" href="#" id="btn-remover"><i class="material-icons left">delete</i>Remover</a>
+        <a class="btn teal" href="#" id="btn-listar"><i class="material-icons left">list</i>Listar Todos</a>
+        <a class="btn-flat" href="/frota/"><i class="material-icons left">home</i>Voltar</a>
+      </div>
+    </div>
+
+    <!-- Tabela de caixas -->
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Lista</span>
+        <div class="responsive-table">
+          <div class="input-field" style="margin-top:0;">
+            <input id="filtro" type="text" placeholder="Filtrar por dimensões/limite" />
+            <label for="filtro">Buscar</label>
+          </div>
+          <table class="highlight responsive-table" id="tabela-caixas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Altura</th>
+                <th>Largura</th>
+                <th>Comprimento</th>
+                <th>Limite Peso</th>
+                <th style="width:140px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-caixas">
+              <!-- Comentário: linhas preenchidas dinamicamente via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de cadastro/edição -->
+  <div id="modal-form" class="modal">
+    <div class="modal-content">
+      <h5 id="modal-title">Nova Caixa</h5>
+      <!-- Comentário: uso um formulário simples apenas para capturar dados; o envio é feito via fetch -->
+      <form id="form-caixa">
+        <input type="hidden" id="id" />
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <input id="altura" type="number" step="0.01" required />
+            <label for="altura">Altura</label>
+          </div>
+          <div class="input-field col s12 m6">
+            <input id="largura" type="number" step="0.01" required />
+            <label for="largura">Largura</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <input id="comprimento" type="number" step="0.01" required />
+            <label for="comprimento">Comprimento</label>
+          </div>
+          <div class="input-field col s12 m6">
+            <input id="limitePeso" type="number" step="0.01" required />
+            <label for="limitePeso">Limite de Peso</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="modal-close btn-flat">Cancelar</a>
+      <a href="#" id="btn-salvar" class="btn teal waves-effect waves-light"><i class="material-icons left">save</i>Salvar</a>
+    </div>
+  </div>
+
+  <!-- Materialize JS (CDN) + fallback local -->
+  <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+  <script> if(!window.M){ document.write('<script src="/frota/vendor/mz-fallback/materialize-fallback.js"><\\/script>'); } </script>
+  <script>
+    // Comentário: baseUrl da API respeitando o context-path "+/frota"
+    const API = '/frota/caixa';
+
+    // Inicialização Materialize
+    document.addEventListener('DOMContentLoaded', function () {
+      M.Sidenav.init(document.querySelectorAll('.sidenav'));
+      const modals = M.Modal.init(document.querySelectorAll('.modal'));
+      loadCaixas();
+
+      // Salvar da modal
+      document.getElementById('btn-salvar').addEventListener('click', submitForm);
+
+  // Ações CRUD via botões
+  document.getElementById('btn-listar').addEventListener('click', loadCaixas);
+  document.getElementById('btn-remover').addEventListener('click', ()=>{ const id = prompt('ID para remover:'); if(id){ onDelete(id); } });
+  document.getElementById('btn-modificar').addEventListener('click', async ()=>{ const id = prompt('ID para modificar:'); if(!id) return; try{ const res = await fetch(`${API}/${id}`); const c = await res.json(); setForm(c); document.getElementById('modal-title').textContent = 'Editar Caixa'; const m = M.Modal.getInstance(document.getElementById('modal-form')); m && m.open(); }catch(e){ M.toast({html:'Não encontrado', classes:'red'}); }});
+  document.getElementById('btn-buscar').addEventListener('click', ()=>{ const el = document.getElementById('filtro'); el && el.focus(); });
+
+      // Ao abrir modal como "novo"
+      const btnNovo = document.querySelector('.modal-trigger');
+      if (btnNovo) {
+        btnNovo.addEventListener('click', () => {
+          setForm({});
+          document.getElementById('modal-title').textContent = 'Nova Caixa';
+        });
+      }
+    });
+
+    // Carrega a lista de caixas
+    async function loadCaixas() {
+      try {
+        const res = await fetch(API);
+        const data = await res.json();
+        renderTable(data);
+      } catch (e) {
+        M.toast({html: 'Erro ao carregar caixas', classes: 'red'});
+        console.error(e);
+      }
+    }
+
+    // Renderiza linhas da tabela
+    function renderTable(lista) {
+      const tbody = document.getElementById('tbody-caixas');
+      tbody.innerHTML = '';
+      if (!lista || lista.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 6;
+        td.textContent = 'Nenhuma caixa cadastrada.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+      for (const c of lista) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${c.id ?? ''}</td>
+          <td>${c.altura ?? ''}</td>
+          <td>${c.largura ?? ''}</td>
+          <td>${c.comprimento ?? ''}</td>
+          <td>${c.limitePeso ?? ''}</td>
+          <td class="caixa-actions">
+            <a href="#modal-form" class="btn-flat waves-effect modal-trigger" onclick='onEdit(${JSON.stringify(c)})' title="Editar"><i class="material-icons">edit</i></a>
+            <a href="#" class="btn-flat waves-effect red-text" onclick='onDelete(${c.id})' title="Excluir"><i class="material-icons">delete</i></a>
+          </td>`;
+        tbody.appendChild(tr);
+      }
+
+      // filtro simples no cliente
+      const filtro = document.getElementById('filtro');
+      filtro && filtro.addEventListener('input', function(){
+        const term = this.value.toLowerCase();
+        document.querySelectorAll('#tabela-caixas tbody tr').forEach(tr => {
+          const txt = tr.innerText.toLowerCase();
+          tr.style.display = txt.includes(term) ? '' : 'none';
+        });
+      });
+    }
+
+    // Preenche o formulário para edição
+    function onEdit(caixa) {
+      setForm(caixa || {});
+      document.getElementById('modal-title').textContent = 'Editar Caixa';
+    }
+
+    function setForm(c) {
+      // Comentário: seto valores (ou limpo) nos campos do formulário
+      document.getElementById('id').value = c.id ?? '';
+      document.getElementById('altura').value = c.altura ?? '';
+      document.getElementById('largura').value = c.largura ?? '';
+      document.getElementById('comprimento').value = c.comprimento ?? '';
+      document.getElementById('limitePeso').value = c.limitePeso ?? '';
+      M.updateTextFields();
+    }
+
+    // Envia create/update conforme existir id
+    async function submitForm(evt) {
+      evt?.preventDefault();
+      const id = document.getElementById('id').value;
+      const body = {
+        id: id ? Number(id) : null,
+        altura: Number(document.getElementById('altura').value),
+        largura: Number(document.getElementById('largura').value),
+        comprimento: Number(document.getElementById('comprimento').value),
+        limitePeso: Number(document.getElementById('limitePeso').value)
+      };
+      try {
+        const url = id ? `${API}/atualizar` : API;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(body)
+        });
+        const text = await res.text();
+        M.toast({html: text || 'Operação realizada', classes: 'teal'});
+        // Fecha a modal e recarrega
+        const modal = M.Modal.getInstance(document.getElementById('modal-form'));
+        modal && modal.close();
+        await loadCaixas();
+      } catch (e) {
+        M.toast({html: 'Erro ao salvar', classes: 'red'});
+        console.error(e);
+      }
+    }
+
+    // Exclui a caixa (usa POST /caixa/{id} conforme o controller)
+    async function onDelete(id) {
+      if (!id) return;
+      if (!confirm('Deseja realmente excluir esta caixa?')) return;
+      try {
+        const res = await fetch(`${API}/${id}`, { method: 'POST' });
+        const text = await res.text();
+        M.toast({html: text || 'Excluída', classes: 'teal'});
+        await loadCaixas();
+      } catch (e) {
+        M.toast({html: 'Erro ao excluir', classes: 'red'});
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+</html>

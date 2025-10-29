@@ -1,61 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragmentos/head :: head('Listagem Caminhão')}"></head>
+<head th:replace="~{fragmentos/head :: head('Caminhões • Listagem')}"></head>
 <body>
-<header th:replace="~{fragmentos/header :: header(activePage='Caminhao')}"></header>
-<div class="container-fluid" style="max-width: 900px; margin: 0 auto;">
-    <h2 class="text-center"
-        th:text="${caminhao!= null} ? 'Editar Caminhão' : 'Lista Caminhão'"></h2>
-    <div th:if="${message != null}"
-         class="alert alert-success alert-dismissible fade show text-center"
-         role="alert">
-        [[${message}]]
-        <button type="button" class="close btn-sm" data-dismiss="alert"
-                aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<!-- Header com navegação -->
+<header th:replace="~{fragmentos/header :: header(activePage='caminhao')}"></header>
+
+<!-- Conteúdo principal -->
+<div class="container" style="max-width: 1100px;">
+    <!-- Barra de ações CRUD exigidas -->
+    <div class="section" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <h4 class="teal-text text-darken-3" style="margin:0;">Caminhões</h4>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a class="btn teal" th:href="@{/caminhao/formulario}"><i class="material-icons left">add</i>Adicionar</a>
+            <a class="btn teal" href="#" id="btn-buscar"><i class="material-icons left">search</i>Buscar</a>
+            <a class="btn teal" href="#" id="btn-modificar"><i class="material-icons left">edit</i>Modificar</a>
+            <a class="btn teal" href="#" id="btn-remover"><i class="material-icons left">delete</i>Remover</a>
+            <a class="btn teal" th:href="@{/caminhao}"><i class="material-icons left">list</i>Listar Todos</a>
+            <a class="btn-flat" th:href="@{/}"><i class="material-icons left">home</i>Voltar</a>
+        </div>
     </div>
-    <a href="/frota/caminhao/formulario">Novo</a>
-    <div th:if="${listaVeiculos.size() > 0}">
-        <table class="table table-hover table-responsive-xl">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">Modelo</th>
-                <th scope="col">Placa</th>
-                <th scope="col">Ano</th>
-                <th scope="col">CargMax</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="caminhao : ${listaVeiculos}">
-                <td th:text="${caminhao.modelo}"></td>
-                <td th:text="${caminhao.placa}"></td>
-                <td th:text="${caminhao.ano}"></td>
-                <td th:text="${caminhao.cargaMaxima}"></td>
-                <td th:text="${caminhao.marca.nome}"></td>
 
-                <!-- <a th:href="@{/caminhao/formulario?id={id}(id=${caminhao.id})}"><button>Editar</button></a>
-                <form action="/caminhao" method="post">
-                    <input type="hidden" name="_method" value="delete">
-                    <input type="hidden" name="id" th:value="${caminhao.id}">
-                    <input type="submit" value="Excluir">
-                </form> -->
+    <!-- Campo de filtro local (cliente) -->
+    <div class="input-field">
+        <input id="filtro" type="text" placeholder="Filtrar por modelo/placa/marca" />
+        <label for="filtro">Buscar</label>
+    </div>
 
-                <td><a th:href="@{'/caminhao/formulario/' + ${caminhao.id}}"
-                       title="Editar o Caminhao"
-                       class="fa-regular fa-pen-to-square icon-dark"></a> &nbsp; <a
-                        th:href="@{'/caminhao/delete/' + ${caminhao.id}}"
-                        th:caminhaoTitle="${caminhao.placa}" id="btnDelete"
-                        title="Apague este caminhao"
-                        class="fa-regular fa-trash-can icon-dark btn-delete"></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <!-- Mensagem de feedback -->
+    <div th:if="${message != null}" class="card-panel green lighten-4 green-text text-darken-4">
+        <!-- Comentário: mensagem de sucesso após operações (flash attribute) -->
+        [[${message}]]
+    </div>
+
+    <!-- Tabela responsiva -->
+    <div th:if="${listaVeiculos.size() > 0}" class="card">
+        <div class="card-content">
+            <span class="card-title">Lista de Caminhões</span>
+            <div class="responsive-table">
+                <table class="highlight responsive-table">
+                    <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Placa</th>
+                        <th>Ano</th>
+                        <th>Carga Máx.</th>
+                        <th>Marca</th>
+                        <th style="width:110px;">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="caminhao : ${listaVeiculos}">
+                        <td th:text="${caminhao.modelo}"></td>
+                        <td th:text="${caminhao.placa}"></td>
+                        <td th:text="${caminhao.ano}"></td>
+                        <td th:text="${caminhao.cargaMaxima}"></td>
+                        <td th:text="${caminhao.marca.nome}"></td>
+                        <td>
+                            <!-- Ações: editar e apagar -->
+                            <a class="btn-flat waves-effect tooltipped" data-position="top" data-tooltip="Editar"
+                               th:href="@{'/caminhao/formulario/' + ${caminhao.id}}">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a class="btn-flat waves-effect red-text tooltipped" data-position="top" data-tooltip="Excluir"
+                               th:href="@{'/caminhao/delete/' + ${caminhao.id}}">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estado vazio -->
+    <div th:if="${listaVeiculos.size() == 0}" class="card-panel yellow lighten-4">
+        <!-- Comentário: mensagem quando ainda não há caminhões cadastrados -->
+        Nenhum caminhão cadastrado ainda. Clique em "Novo" para adicionar o primeiro.
     </div>
 </div>
+
+<!-- Rodapé e scripts -->
 <div th:replace="fragmentos/footer :: footer"></div>
+<script>
+    // Busca local: filtra linhas que não contem o termo
+    document.addEventListener('DOMContentLoaded', function(){
+        const filtro = document.getElementById('filtro');
+        if (filtro) {
+            filtro.addEventListener('input', function(){
+                const term = this.value.toLowerCase();
+                document.querySelectorAll('tbody tr').forEach(tr => {
+                    const txt = tr.innerText.toLowerCase();
+                    tr.style.display = txt.includes(term) ? '' : 'none';
+                });
+            });
+        }
+
+        // Modificar por ID: redireciona para /caminhao/formulario/{id}
+        const mod = document.getElementById('btn-modificar');
+        mod && mod.addEventListener('click', function(e){ e.preventDefault(); const id = prompt('Digite o ID do caminhão para editar:'); if(id){ window.location.href = `${(window.location.pathname.startsWith('/frota')?'/frota':'')}/caminhao/formulario/${id}`; }});
+
+        // Remover por ID: redireciona para /caminhao/delete/{id}
+        const rem = document.getElementById('btn-remover');
+        rem && rem.addEventListener('click', function(e){ e.preventDefault(); const id = prompt('Digite o ID do caminhão para remover:'); if(id && confirm('Confirmar remoção?')){ window.location.href = `${(window.location.pathname.startsWith('/frota')?'/frota':'')}/caminhao/delete/${id}`; }});
+
+        // Foco na busca quando clica em Buscar
+        const btnBuscar = document.getElementById('btn-buscar');
+        btnBuscar && btnBuscar.addEventListener('click', function(e){ e.preventDefault(); const f = document.getElementById('filtro'); f && f.focus(); });
+    });
+</script>
 </body>
 </html>

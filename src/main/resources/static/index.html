@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <!-- Home estática servida em /frota/ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FrotaLux • Início</title>
+  
+  <!-- Fallback local + CDN Materialize -->
+  <link rel="stylesheet" href="/frota/vendor/mz-fallback/materialize-fallback.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css" />
+  <link rel="stylesheet" href="/frota/css/style.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar mínima (versão estática, combinando com o fragmento) -->
+  <nav class="nav-wrapper teal darken-3">
+    <div class="container">
+      <a href="/frota/" class="brand-logo"><i class="material-icons left">local_shipping</i>FrotaLux</a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li class="active"><a href="/frota/"><i class="material-icons left">home</i>Início</a></li>
+        <li><a href="/frota/caminhao"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
+        <li><a href="/frota/marca"><i class="material-icons left">apartment</i>Marcas</a></li>
+        <li><a href="/frota/solicitacao"><i class="material-icons left">request_quote</i>Calcular Rota</a></li>
+        <li><a href="/frota/caixa-ui/index.html"><i class="material-icons left">inventory_2</i>Caixas</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-nav">
+    <li><a href="/frota/"><i class="material-icons left">home</i>Início</a></li>
+    <li><a href="/frota/caminhao"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
+    <li><a href="/frota/marca"><i class="material-icons left">apartment</i>Marcas</a></li>
+    <li><a href="/frota/solicitacao"><i class="material-icons left">request_quote</i>Calcular Rota</a></li>
+    <li><a href="/frota/caixa-ui/index.html"><i class="material-icons left">inventory_2</i>Caixas</a></li>
+  </ul>
+
+  <!-- Hero / boas-vindas -->
+  <div class="container" style="max-width:1200px;">
+    <div class="section">
+      <div class="card z-depth-1">
+        <div class="card-content">
+          <span class="card-title">Painel Administrativo</span>
+          <p>Gerencie a frota de caminhões, marcas e caixas, e faça simulações de rota/frete com um clique.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações principais em cards -->
+    <div class="row">
+      <div class="col s12 m6 l3">
+        <div class="card hoverable">
+          <div class="card-content center-align">
+            <i class="material-icons" style="font-size:48px; color:#00695c;">local_shipping</i>
+            <h6 class="teal-text text-darken-3" style="margin-top:8px;">Caminhões</h6>
+            <p class="grey-text">CRUD completo</p>
+          </div>
+          <div class="card-action center-align">
+            <a class="btn teal" href="/frota/caminhao"><i class="material-icons left">open_in_new</i>Abrir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card hoverable">
+          <div class="card-content center-align">
+            <i class="material-icons" style="font-size:48px; color:#00695c;">apartment</i>
+            <h6 class="teal-text text-darken-3" style="margin-top:8px;">Marcas</h6>
+            <p class="grey-text">CRUD completo</p>
+          </div>
+          <div class="card-action center-align">
+            <a class="btn teal" href="/frota/marca"><i class="material-icons left">open_in_new</i>Abrir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card hoverable">
+          <div class="card-content center-align">
+            <i class="material-icons" style="font-size:48px; color:#00695c;">inventory_2</i>
+            <h6 class="teal-text text-darken-3" style="margin-top:8px;">Caixas</h6>
+            <p class="grey-text">CRUD via API</p>
+          </div>
+          <div class="card-action center-align">
+            <a class="btn teal" href="/frota/caixa-ui/index.html"><i class="material-icons left">open_in_new</i>Abrir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card hoverable">
+          <div class="card-content center-align">
+            <i class="material-icons" style="font-size:48px; color:#00695c;">request_quote</i>
+            <h6 class="teal-text text-darken-3" style="margin-top:8px;">Calcular Rota</h6>
+            <p class="grey-text">Simulação de frete</p>
+          </div>
+          <div class="card-action center-align">
+            <a class="btn teal" href="/frota/solicitacao"><i class="material-icons left">calculate</i>Simular</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé simples -->
+  <footer>
+    <div class="container center-align" style="margin: 24px 0;">
+      <small>© 2025 KIP² • FrotaLux</small>
+    </div>
+  </footer>
+
+  <!-- Scripts Materialize -->
+  <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+  <script> if(!window.M){ document.write('<script src="/frota/vendor/mz-fallback/materialize-fallback.js"><\\/script>'); } </script>
+  <script> document.addEventListener('DOMContentLoaded',()=>{ M.Sidenav && M.Sidenav.init(document.querySelectorAll('.sidenav')); }); </script>
+</body>
+</html>

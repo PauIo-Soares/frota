@@ -1,60 +1,64 @@
-<!-- templates/fragmentos/header.html -->
+<!-- Header de navegação com Materialize (fragmento) -->
 <header th:fragment="header(activePage)">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"> <i class="fas fa-truck me-2"></i>FrotaLux </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <!-- Item normal -->
-                    <li class="nav-item"><a class="nav-link"
-                                            th:classappend="${activePage == 'dashboard'} ? 'active' : ''"
-                                            th:href="@{/home/dashboard}"> <i class="fas fa-home me-1"></i>
-                        Início
-                    </a></li>
-                    <!-- Dropdown de Marcas -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="filmesDropdown"
-                           role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                           th:classappend="${activePage == '' || activePage == 'caminhao'} ? 'active' : ''"
-                           style="cursor: pointer;"> <i class="fas fa-film me-1"></i>
-                            caminhao
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="filmesDropdown">
-                            <li><a class="dropdown-item"
-                                   th:classappend="${activePage == 'caminhao'} ? 'active' : ''"
-                                   th:href="@{/caminhao}"> <i class="fas fa-list me-1"></i> Listagem Caminhao</a>
-                            </li>
-                            <li><a class="dropdown-item"
-                                   th:classappend="${activePage == 'caminhao'} ? 'active' : ''"
-                                   th:href="@{/caminhao/formulario}"> <i class="fas fa-star me-1"></i> Cadastrar
-                                Caminhao
-                            </a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="d-flex align-items-center">
-                    <!--  <div class="dropdown">
-                         <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
-                            id="dropdownUser" data-bs-toggle="dropdown">
-                             <span th:if="${session.usuarioLogado != null}" th:text="${session.usuarioLogado.user}" class="me-2 user-greeting"></span>
-                             <img th:src="@{/img/user-avatar.png}" alt="Perfil" width="32" height="32" class="rounded-circle">
-                         </a>
-                         <ul class="dropdown-menu dropdown-menu-end">
-                             <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Perfil</a></li>
-                             <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Configurações</a></li>
-                             <li><hr class="dropdown-divider"></li>
-                             <li>
-                                 <a class="dropdown-item text-danger" th:href="@{/logout}">
-                                     <i class="fas fa-sign-out-alt me-2"></i> Sair
-                                 </a>
-                             </li>
-                         </ul>
-                     </div> -->
-                </div>
-            </div>
+    <!-- Navbar principal -->
+    <nav class="nav-wrapper teal darken-3">
+        <div class="container">
+            <!-- Logo/Brand -->
+            <a th:href="@{/}" class="brand-logo">
+                <!-- Comentário: ícone e nome do sistema -->
+                <i class="material-icons left">local_shipping</i>FrotaLux
+            </a>
+            <!-- Botão hamburguer para mobile -->
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <!-- Menu desktop -->
+            <ul class="right hide-on-med-and-down">
+                <li th:classappend="${activePage == 'home'} ? 'active' : ''">
+                    <a th:href="@{/}"><i class="material-icons left">home</i>Início</a>
+                </li>
+                <li th:classappend="${activePage == 'caminhao'} ? 'active' : ''">
+                    <a class="dropdown-trigger" href="#" data-target="drop-caminhao">
+                        <i class="material-icons left">local_shipping</i>Caminhões<i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li>
+                <li th:classappend="${activePage == 'marca'} ? 'active' : ''">
+                    <a class="dropdown-trigger" href="#" data-target="drop-marca">
+                        <!-- Comentário: 'factory' não existe na família baseline; uso 'apartment' -->
+                        <i class="material-icons left">apartment</i>Marcas<i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li>
+                <li th:classappend="${activePage == 'solicitacao'} ? 'active' : ''">
+                    <a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Solicitar Frete</a>
+                </li>
+                <!-- Link para a UI de Caixa (página estática que consome a API REST) -->
+                <li>
+                    <a th:href="@{/caixa-ui/index.html}"><i class="material-icons left">inventory_2</i>Caixas</a>
+                </li>
+            </ul>
         </div>
     </nav>
+
+    <!-- Dropdowns desktop -->
+    <ul id="drop-caminhao" class="dropdown-content">
+        <li><a th:href="@{/caminhao}"><i class="material-icons left">list</i>Listagem</a></li>
+        <li><a th:href="@{/caminhao/formulario}"><i class="material-icons left">add</i>Novo</a></li>
+    </ul>
+    <ul id="drop-marca" class="dropdown-content">
+        <li><a th:href="@{/marca}"><i class="material-icons left">list</i>Listagem</a></li>
+        <li><a th:href="@{/marca/formulario}"><i class="material-icons left">add</i>Novo</a></li>
+    </ul>
+
+    <!-- Menu mobile -->
+    <ul class="sidenav" id="mobile-nav">
+        <li><a class="subheader">Navegação</a></li>
+        <li><a th:href="@{/}"><i class="material-icons left">home</i>Início</a></li>
+        <li><a th:href="@{/caminhao}"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
+        <li><a th:href="@{/caminhao/formulario}"><i class="material-icons left">add</i>Novo Caminhão</a></li>
+        <li class="divider"></li>
+        <li><a th:href="@{/marca}"><i class="material-icons left">apartment</i>Marcas</a></li>
+        <li><a th:href="@{/marca/formulario}"><i class="material-icons left">add</i>Nova Marca</a></li>
+        <li class="divider"></li>
+        <li><a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Solicitar Frete</a></li>
+        <li class="divider"></li>
+        <li><a th:href="@{/caixa-ui/index.html}"><i class="material-icons left">inventory_2</i>Caixas (UI)</a></li>
+    </ul>
 </header>

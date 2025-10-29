@@ -1,9 +1,34 @@
-<!-- <footer class="text-center">
-  Copyright &copy; KIP²
-</footer> -->
-
+<!-- Rodapé padrão + scripts (fragmento) -->
 <footer th:fragment="footer">
-    <div class="container">
-        <p class="text-center">© 2025 KIP²</p>
+    <!-- Comentário: simples rodapé centralizado -->
+    <div class="container center-align" style="margin-top: 24px; margin-bottom: 24px;">
+        <p>© 2025 KIP² • FrotaLux</p>
     </div>
+
+    <!-- Materialize JS (CDN); se não carregar, injeto fallback local -->
+    <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+    <script>
+        // Se o objeto global M não existir (CDN bloqueado), carrego o fallback local
+        if (!window.M) {
+          document.write('<script src="' + (window.location.pathname.startsWith('/frota')? '/frota' : '') + '/vendor/mz-fallback/materialize-fallback.js"><\\/script>');
+        }
+    </script>
+
+    <!-- Inicialização dos componentes do Materialize -->
+    <script>
+        // Comentário: inicializo dropdowns, selects e o menu lateral (sidenav)
+        document.addEventListener('DOMContentLoaded', function () {
+          const dropdowns = document.querySelectorAll('.dropdown-trigger');
+          M.Dropdown.init(dropdowns, {coverTrigger: false, constrainWidth: false});
+
+          const sidenav = document.querySelectorAll('.sidenav');
+          M.Sidenav.init(sidenav, {});
+
+          const selects = document.querySelectorAll('select');
+          M.FormSelect.init(selects, {});
+
+          const tooltips = document.querySelectorAll('.tooltipped');
+          M.Tooltip.init(tooltips, {});
+        });
+    </script>
 </footer>

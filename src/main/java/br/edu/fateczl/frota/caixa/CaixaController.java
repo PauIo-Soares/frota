@@ -14,13 +14,12 @@ public class CaixaController {
     @Autowired
     private CaixaService caixaService;
 
-
 //  Talvez seja bom usar
 //  @Autowired
 //  private CaixaMapper caixaMapper;
 
     @GetMapping
-    public String paginaCaixas(Model model) {
+    public String carregarForm(Model model) {
         model.addAttribute("caixa", new CaixaDTO(null, null, null, null, null));
         model.addAttribute("mensagem", null);
         model.addAttribute("resultadoBusca", null);
