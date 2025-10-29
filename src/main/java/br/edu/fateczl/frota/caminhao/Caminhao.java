@@ -39,12 +39,15 @@ public class Caminhao {
     private static final double FATOR_CUBAGEM = 300.0;
 
     @Transient
+    private Double metragemCubica;
+
     public Double getMetragemCubica() {
         if (comprimento == null || largura == null || altura == null) {
             return 0.0;
         }
         return comprimento * largura * altura;
     }
+
 
     public Caminhao(CadastroCaminhao dados, Marca marca) {
         this.modelo = dados.modelo();

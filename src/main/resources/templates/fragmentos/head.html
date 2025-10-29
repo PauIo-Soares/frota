@@ -1,22 +1,8 @@
-<!-- Cabeçalho padrão das páginas (fragmento) -->
 <head th:fragment="head(title)">
-    <!-- Meta básicos para responsividade e charset -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Título dinâmico da página -->
     <title th:text="${title}">FrotaLux</title>
-
-    <!-- Fallback local primeiro (garante layout mesmo sem internet/sem CDN) -->
-    <link rel="stylesheet" th:href="@{/vendor/mz-fallback/materialize-fallback.css}">
-
-    <!-- Materialize CSS via CDN: se carregar, sobrescreve o fallback -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css" />
-
-    <!-- Ícones do Google (para os ícones do Materialize) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- CSS da aplicação (overrides e estilos próprios) -->
-    <!-- Comentário: centralizo neste arquivo minhas cores e ajustes por cima do Materialize -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>

@@ -1,102 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragmentos/head :: head('Caminhão • Formulário')}"></head>
+<head th:replace="~{fragmentos/head :: head('Formulário de Caminhão')}"></head>
 <body>
-<!-- Header com navegação -->
 <header th:replace="~{fragmentos/header :: header(activePage='caminhao')}"></header>
 
-<!-- Container principal do formulário -->
-<div class="container" style="max-width: 920px;">
-    <!-- Título do card -->
-    <h4 class="teal-text text-darken-3 center-align" th:text="(${caminhao != null} ? 'Editar Caminhão' : 'Novo Caminhão')">Formulário</h4>
-
-    <!-- Mensagem de sucesso (flash) -->
-    <div th:if="${message != null}" class="card-panel green lighten-4 green-text text-darken-4 center-align">
-        <!-- Comentário: mostro mensagens vindas do backend após salvar/atualizar -->
-        [[${message}]]
+<div class="container" style="margin-top: 20px; max-width: 800px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align"
+                th:text="${caminhao != null && caminhao.id != null} ? 'Editar Caminhão' : 'Novo Caminhão'">
+                Formulário
+            </h4>
+        </div>
     </div>
 
-    <!-- Card do formulário -->
-    <div class="card z-depth-1">
+    <div th:if="${message}" class="card-panel green lighten-4 green-text">
+        <span th:text="${message}"></span>
+    </div>
+
+    <div class="card">
         <div class="card-content">
-            <!-- Comentário: o formulário usa th:object para vincular com o DTO AtualizacaoCaminhao do backend -->
             <form th:action="@{/caminhao/salvar}" th:object="${caminhao}" method="post">
-                <!-- Campo oculto do ID (preenchido apenas em edição) -->
                 <input type="hidden" th:field="*{id}"/>
 
-                <!-- Seleção da Marca (Materialize select) -->
                 <div class="input-field">
-                    <!-- Comentário: select vinculado ao campo marcaId; lista 'marcas' vem do controller -->
-                    <select th:field="*{marcaId}">
+                    <select th:field="*{marcaId}" required>
                         <option value="" disabled selected>Selecione uma marca</option>
-                        <option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.nome}"></option>
+                        <option th:each="marca : ${marcas}"
+                                th:value="${marca.id}"
+                                th:text="${marca.nome}"></option>
                     </select>
-                    <label>Marca</label>
-                    <span class="helper-text red-text" th:if="${#fields.hasErrors('marcaId')}" th:errors="*{marcaId}"></span>
+                    <label>Marca *</label>
+                    <span class="red-text" th:if="${#fields.hasErrors('marcaId')}"
+                          th:errors="*{marcaId}"></span>
                 </div>
 
-                <!-- Campo Modelo -->
                 <div class="input-field">
-                    <!-- Comentário: th:field cria automaticamente o id e name conforme o atributo do DTO -->
-                    <input type="text" th:field="*{modelo}"/>
-                    <label for="modelo">Modelo</label>
-                    <span class="helper-text red-text" th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}"></span>
+                    <input type="text" th:field="*{modelo}" required/>
+                    <label for="modelo">Modelo *</label>
+                    <span class="red-text" th:if="${#fields.hasErrors('modelo')}"
+                          th:errors="*{modelo}"></span>
                 </div>
 
-                <!-- Campo Placa -->
                 <div class="input-field">
-                    <input type="text" th:field="*{placa}"/>
-                    <label for="placa">Placa</label>
-                    <span class="helper-text red-text" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></span>
+                    <input type="text" th:field="*{placa}" required/>
+                    <label for="placa">Placa *</label>
+                    <span class="red-text" th:if="${#fields.hasErrors('placa')}"
+                          th:errors="*{placa}"></span>
                 </div>
 
-                <!-- Campo Ano -->
                 <div class="input-field">
-                    <input type="number" th:field="*{ano}"/>
-                    <label for="ano">Ano</label>
-                    <span class="helper-text red-text" th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></span>
+                    <input type="number" th:field="*{ano}" required/>
+                    <label for="ano">Ano *</label>
+                    <span class="red-text" th:if="${#fields.hasErrors('ano')}"
+                          th:errors="*{ano}"></span>
                 </div>
 
-                <!-- Campo Carga Máxima -->
                 <div class="input-field">
-                    <input type="number" th:field="*{cargaMaxima}"/>
-                    <label for="cargaMaxima">Carga Máxima (kg)</label>
-                    <span class="helper-text red-text" th:if="${#fields.hasErrors('cargaMaxima')}" th:errors="*{cargaMaxima}"></span>
+                    <input type="number" step="0.01" th:field="*{cargaMaxima}" required/>
+                    <label for="cargaMaxima">Carga Máxima (kg) *</label>
+                    <span class="red-text" th:if="${#fields.hasErrors('cargaMaxima')}"
+                          th:errors="*{cargaMaxima}"></span>
                 </div>
 
-                <!-- Dimensões do veículo (campos visuais) -->
-                <!-- Comentário: estes campos são solicitados pelo protótipo, mas não estão no DTO do backend.
-                     Incluo-os no form como campos comuns (sem th:field). O backend os ignorará no POST. -->
                 <div class="row">
-                    <div class="input-field col s12 m4">
-                        <input type="number" step="0.01" name="comprimento" id="comprimento" />
-                        <label for="comprimento">Comprimento (m)</label>
+                    <div class="col s12" style="margin-top: 20px;">
+                        <button type="submit" class="btn teal waves-effect">
+                            <i class="material-icons left">save</i>
+                            <span th:text="${caminhao.id != null} ? 'Atualizar' : 'Cadastrar'">Salvar</span>
+                        </button>
+                        <a th:href="@{/caminhao}" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i>Voltar
+                        </a>
                     </div>
-                    <div class="input-field col s12 m4">
-                        <input type="number" step="0.01" name="largura" id="largura" />
-                        <label for="largura">Largura (m)</label>
-                    </div>
-                    <div class="input-field col s12 m4">
-                        <input type="number" step="0.01" name="altura" id="altura" />
-                        <label for="altura">Altura (m)</label>
-                    </div>
-                </div>
-
-                <!-- Ações do formulário -->
-                <div class="section" style="margin-top: 16px;">
-                    <button type="submit" class="btn waves-effect waves-light teal">
-                        <i class="material-icons left">save</i>
-                        <span th:text="${caminhao.id != null} ? 'Atualizar' : 'Cadastrar'">Cadastrar</span>
-                    </button>
-                    <a th:href="@{/caminhao}" class="btn-flat waves-effect"><i class="material-icons left">list</i>Voltar Lista</a>
-                    <a th:href="@{/}" class="btn-flat waves-effect"><i class="material-icons left">home</i>Início</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Rodapé e scripts -->
 <div th:replace="~{fragmentos/footer :: footer}"></div>
 </body>
 </html>

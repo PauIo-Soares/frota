@@ -1,64 +1,38 @@
-<!-- Header de navegação com Materialize (fragmento) -->
 <header th:fragment="header(activePage)">
-    <!-- Navbar principal -->
-    <nav class="nav-wrapper teal darken-3">
+    <nav class="teal darken-3">
         <div class="container">
-            <!-- Logo/Brand -->
             <a th:href="@{/}" class="brand-logo">
-                <!-- Comentário: ícone e nome do sistema -->
                 <i class="material-icons left">local_shipping</i>FrotaLux
             </a>
-            <!-- Botão hamburguer para mobile -->
-            <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <!-- Menu desktop -->
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
             <ul class="right hide-on-med-and-down">
                 <li th:classappend="${activePage == 'home'} ? 'active' : ''">
                     <a th:href="@{/}"><i class="material-icons left">home</i>Início</a>
                 </li>
                 <li th:classappend="${activePage == 'caminhao'} ? 'active' : ''">
-                    <a class="dropdown-trigger" href="#" data-target="drop-caminhao">
-                        <i class="material-icons left">local_shipping</i>Caminhões<i class="material-icons right">arrow_drop_down</i>
-                    </a>
+                    <a th:href="@{/caminhao}"><i class="material-icons left">local_shipping</i>Caminhões</a>
                 </li>
                 <li th:classappend="${activePage == 'marca'} ? 'active' : ''">
-                    <a class="dropdown-trigger" href="#" data-target="drop-marca">
-                        <!-- Comentário: 'factory' não existe na família baseline; uso 'apartment' -->
-                        <i class="material-icons left">apartment</i>Marcas<i class="material-icons right">arrow_drop_down</i>
-                    </a>
+                    <a th:href="@{/marca}"><i class="material-icons left">apartment</i>Marcas</a>
+                </li>
+                <li th:classappend="${activePage == 'caixa'} ? 'active' : ''">
+                    <a th:href="@{/caixa}"><i class="material-icons left">inventory_2</i>Caixas</a>
                 </li>
                 <li th:classappend="${activePage == 'solicitacao'} ? 'active' : ''">
-                    <a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Solicitar Frete</a>
-                </li>
-                <!-- Link para a UI de Caixa (página estática que consome a API REST) -->
-                <li>
-                    <a th:href="@{/caixa-ui/index.html}"><i class="material-icons left">inventory_2</i>Caixas</a>
+                    <a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Frete</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Dropdowns desktop -->
-    <ul id="drop-caminhao" class="dropdown-content">
-        <li><a th:href="@{/caminhao}"><i class="material-icons left">list</i>Listagem</a></li>
-        <li><a th:href="@{/caminhao/formulario}"><i class="material-icons left">add</i>Novo</a></li>
-    </ul>
-    <ul id="drop-marca" class="dropdown-content">
-        <li><a th:href="@{/marca}"><i class="material-icons left">list</i>Listagem</a></li>
-        <li><a th:href="@{/marca/formulario}"><i class="material-icons left">add</i>Novo</a></li>
-    </ul>
-
-    <!-- Menu mobile -->
     <ul class="sidenav" id="mobile-nav">
-        <li><a class="subheader">Navegação</a></li>
         <li><a th:href="@{/}"><i class="material-icons left">home</i>Início</a></li>
+        <li class="divider"></li>
         <li><a th:href="@{/caminhao}"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
-        <li><a th:href="@{/caminhao/formulario}"><i class="material-icons left">add</i>Novo Caminhão</a></li>
-        <li class="divider"></li>
         <li><a th:href="@{/marca}"><i class="material-icons left">apartment</i>Marcas</a></li>
-        <li><a th:href="@{/marca/formulario}"><i class="material-icons left">add</i>Nova Marca</a></li>
-        <li class="divider"></li>
-        <li><a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Solicitar Frete</a></li>
-        <li class="divider"></li>
-        <li><a th:href="@{/caixa-ui/index.html}"><i class="material-icons left">inventory_2</i>Caixas (UI)</a></li>
+        <li><a th:href="@{/caixa}"><i class="material-icons left">inventory_2</i>Caixas</a></li>
+        <li><a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Frete</a></li>
     </ul>
 </header>
