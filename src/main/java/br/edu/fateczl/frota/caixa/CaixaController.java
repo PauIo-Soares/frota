@@ -1,5 +1,6 @@
 package br.edu.fateczl.frota.caixa;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,6 @@ public class CaixaController {
     @Autowired
     private CaixaService caixaService;
 
-//  Talvez seja bom usar
-//  @Autowired
-//  private CaixaMapper caixaMapper;
-
     @GetMapping
     public String carregarForm(Model model) {
         model.addAttribute("caixa", new CaixaDTO(null, null, null, null, null));
@@ -28,7 +25,7 @@ public class CaixaController {
     }
 
     @PostMapping("/criar")
-    public String criarCaixa(@ModelAttribute CaixaDTO caixa, Model model) {
+    public String criarCaixa(@ModelAttribute @Valid CaixaDTO caixa, Model model) {
         String mensagem = caixaService.criarCaixa(caixa);
         model.addAttribute("mensagem", mensagem);
         model.addAttribute("caixa", new CaixaDTO(null, null, null, null, null));
@@ -44,7 +41,7 @@ public class CaixaController {
     }
 
     @PostMapping("/atualizar")
-    public String atualizarCaixa(@ModelAttribute CaixaDTO caixa, Model model) {
+    public String atualizarCaixa(@ModelAttribute @Valid CaixaDTO caixa, Model model) {
         String mensagem = caixaService.atualizarCaixa(caixa);
         model.addAttribute("mensagem", mensagem);
         return "caixas";

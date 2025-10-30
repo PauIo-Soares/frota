@@ -17,7 +17,6 @@ public class SolicitacaoService {
     @Autowired
     private CaixaService caixaService;
 
-    // Fator cubagem talvez tenha q sair daqui, ate pq já está em caminahao
     private static final Double FATOR_CUBAGEM = 300.0;
 
     private List<CaixaDTO> mostrarCaixasCompativeis(SolicitacaoRequest produto){

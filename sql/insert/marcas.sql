@@ -6,3 +6,4 @@ INSERT INTO tb_marcas (nome,pais) VALUES
 ('Volvo', 'Argentina'),
 ('Scania', 'Holanda'),
 ('Volks', 'Alemanha');
+GO

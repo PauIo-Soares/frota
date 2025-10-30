@@ -13,6 +13,11 @@ public class CaixaService {
     @Autowired
     private CaixaRepository caixaRepository;
 
+
+//  Talvez seja bom usar
+//  @Autowired
+//  private CaixaMapper caixaMapper;
+
     @Transactional
     public String criarCaixa(CaixaDTO dto) {
 

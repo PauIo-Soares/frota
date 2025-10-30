@@ -14,3 +14,4 @@ INSERT INTO tb_caminhoes (modelo, marca_id, placa, carga_maxima, ano, compriment
 ('DAF CF 85', 4, 'MMK-7818', 41376, 2014, 11.4, 2.5, 3.7),
 ('DAF XF 105', 4, 'OBV-0785', 45309, 2023, 12.0, 2.6, 3.9),
 ('Iveco Hi-Way 490', 1, 'KTA-2314', 40633, 2013, 11.8, 2.5, 3.8);
+GO

@@ -1,5 +1,8 @@
 package br.edu.fateczl.frota.orcamento;
 
+import br.edu.fateczl.frota.caixa.Caixa;
+import br.edu.fateczl.frota.caixa.CaixaDTO;
+import br.edu.fateczl.frota.caixa.CaixaService;
 import br.edu.fateczl.frota.solicitacao.GoogleDistanciaService;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoEntity;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoRequest;
@@ -21,6 +24,9 @@ public class OrcamentoService {
     private SolicitacaoService solicitacaoService;
 
     @Autowired
+    private CaixaService caixaService;
+
+    @Autowired
     private GoogleDistanciaService googleDistanciaService;
 
     private static final Double PRECO_POR_KM = 1.50;
@@ -30,7 +36,7 @@ public class OrcamentoService {
     private static final Double MEDIA_PEDAGIO_POR_KM = 944.44;
 
     @Transactional
-    public Double calcularFrete(SolicitacaoRequest solicitacao) {
+    private Double calcularFrete(SolicitacaoRequest solicitacao) {
         Double volume = solicitacaoService.calcularVolume(solicitacao.altura(), solicitacao.comprimento(), solicitacao.largura());
 
         Double pesoCubado = solicitacaoService.calcularPesoCubado(volume);
@@ -53,7 +59,7 @@ public class OrcamentoService {
 
     }
 
-    public void salvarOrcamento(SolicitacaoEntity solicitacao, Double valorFrete){
+    private void salvarOrcamento(SolicitacaoEntity solicitacao, Double valorFrete){
 
         OrcamentoEntity orcamentoEntity = new OrcamentoEntity();
         orcamentoEntity.setSolicitacao(solicitacao);
@@ -62,7 +68,7 @@ public class OrcamentoService {
 
     }
 
-    public SolicitacaoEntity salvarSolicitacao(SolicitacaoRequest solicitacao){
+    private SolicitacaoEntity salvarSolicitacao(SolicitacaoRequest solicitacao){
 
         SolicitacaoEntity solicitacaoEntity = new SolicitacaoEntity();
         solicitacaoEntity.setAltura(solicitacao.altura());
@@ -89,6 +95,18 @@ public class OrcamentoService {
         Double qtdPedagios = distanciaKm / MEDIA_PEDAGIO_POR_KM;
 
         return qtdPedagios * PRECO_MEDIO_PEDAGIO_CAMINHAO;
+
+    }
+
+    public double finalizarSolicitacao(Long caixaId, SolicitacaoRequest solicitacao) {
+
+        CaixaDTO caixaEscolhida = caixaService.buscarCaixaPorId(caixaId);
+
+        Caixa caixa = new Caixa(caixaEscolhida.id(), caixaEscolhida.comprimento(), caixaEscolhida.largura(), caixaEscolhida.altura(), caixaEscolhida.limitePeso());
+
+        SolicitacaoRequest solicitacaoComCaixa = new SolicitacaoRequest(solicitacao.peso(), solicitacao.comprimento(), solicitacao.largura(), solicitacao.altura(), solicitacao.cepOrigem(), solicitacao.cepDestino(), caixa);
+
+        return calcularFrete(solicitacaoComCaixa);
 
     }
 
