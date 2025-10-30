@@ -12,6 +12,9 @@ import java.util.List;
 public class SolicitacaoService {
 
     @Autowired
+    private SolicitacaoRepository solicitacaoRepository;
+
+    @Autowired
     private CaixaService caixaService;
 
     // Fator cubagem talvez tenha q sair daqui, ate pq já está em caminahao
@@ -39,17 +42,21 @@ public class SolicitacaoService {
         return mostrarCaixasCompativeis(solicitacao);
     }
 
-    // Deve ir pra solicitacaoService pra nao ferir SOLID
     public Double calcularVolume(Double altura, Double comprimento, Double largura) {
 
         return altura * comprimento * largura;
 
     }
 
-    // Deve ir pra solicitacaoService pra nao ferir SOLID
     public Double calcularPesoCubado(Double volume) {
 
         return volume * FATOR_CUBAGEM;
+
+    }
+
+    public SolicitacaoEntity salvarSolicitacao(SolicitacaoEntity solicitacao) {
+
+       return solicitacaoRepository.save(solicitacao);
 
     }
 

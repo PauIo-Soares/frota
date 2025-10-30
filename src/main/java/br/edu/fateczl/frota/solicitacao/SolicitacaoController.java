@@ -50,14 +50,14 @@ public class SolicitacaoController {
 
         Caixa caixa = new Caixa(caixaEscolhida.id(), caixaEscolhida.comprimento(), caixaEscolhida.largura(), caixaEscolhida.altura(), caixaEscolhida.limitePeso());
 
-        SolicitacaoRequest solicitacaoComCaixa = new SolicitacaoRequest(solicitacao.peso(), solicitacao.comprimento(), solicitacao.largura(), solicitacao.altura(), solicitacao.cepOrigem(), solicitacao.cepDestino(), caixa // adiciona a caixa escolhida
-        );
+        SolicitacaoRequest solicitacaoComCaixa = new SolicitacaoRequest(solicitacao.peso(), solicitacao.comprimento(), solicitacao.largura(), solicitacao.altura(), solicitacao.cepOrigem(), solicitacao.cepDestino(), caixa);
 
         double valorFrete = orcamentoService.calcularFrete(solicitacaoComCaixa);
 
         model.addAttribute("valorFrete", valorFrete);
 
         return "resultadoFrete";
+
     }
 
 }

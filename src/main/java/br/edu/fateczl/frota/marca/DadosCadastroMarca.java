@@ -1,12 +1,17 @@
 package br.edu.fateczl.frota.marca;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record DadosCadastroMarca(
 
-        @NotBlank
+        @NotBlank(message = "O nome da marca é obrigatório, insira seu valor")
+        @NotNull(message = "O nome da marca é obrigatório, insira seu valor")
         String nome,
 
-        String pais) {
+        @NotBlank(message = "O nome do pais marca é obrigatório, insira seu valor")
+        @NotNull(message = "O nome do pais marca é obrigatório, insira seu valor")
+        String pais
 
+) {
 }

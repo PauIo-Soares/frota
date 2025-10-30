@@ -15,4 +15,5 @@ public record DistanciaMatrixResponse(List<String> destination_addresses, List<S
 
     public record Duration(String text, Long value) {
     }
+
 }

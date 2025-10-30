@@ -28,5 +28,7 @@ public class GoogleDistanciaService {
         long distanciaMetros = response.rows().get(0).elements().get(0).distance().value();
 
         return distanciaMetros / 1000.0;
+
     }
+
 }

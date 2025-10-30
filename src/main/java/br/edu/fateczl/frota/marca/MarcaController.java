@@ -33,6 +33,7 @@ public class MarcaController {
             var marca = marcaService.procurarPorId(id);
             model.addAttribute("marca", marca);
         }
+
         return "marca/formulario";
 
     }
@@ -59,6 +60,7 @@ public class MarcaController {
 
         marcaService.atualizarMarca(dados);
         return "redirect:marca";
+
     }
 
 }
