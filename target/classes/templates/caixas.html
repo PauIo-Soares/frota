@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Gerenciar Caixas')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='caixa')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Gerenciar Caixas</h4>
+        </div>
+    </div>
+
+    <div th:if="${mensagem}" class="card-panel green lighten-4 green-text">
+        <span th:text="${mensagem}"></span>
+    </div>
+
+    <!-- Formulário Criar/Atualizar -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Cadastrar Nova Caixa</span>
+            <form th:action="@{/caixa/criar}" method="post">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="altura" required>
+                        <label>Altura (m) *</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="largura" required>
+                        <label>Largura (m) *</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="comprimento" required>
+                        <label>Comprimento (m) *</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="limitePeso" required>
+                        <label>Limite de Peso (kg) *</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn teal">
+                    <i class="material-icons left">add</i>Criar Caixa
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Atualizar -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Atualizar Caixa</span>
+            <form th:action="@{/caixa/atualizar}" method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="number" name="id" required>
+                        <label>ID da Caixa *</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="altura" required>
+                        <label>Nova Altura (m) *</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="largura" required>
+                        <label>Nova Largura (m) *</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="comprimento" required>
+                        <label>Novo Comprimento (m) *</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="number" step="0.01" name="limitePeso" required>
+                        <label>Novo Limite de Peso (kg) *</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn teal">
+                    <i class="material-icons left">edit</i>Atualizar Caixa
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Buscar -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Buscar Caixa por ID</span>
+            <form th:action="@{/caixa/buscar}" method="post">
+                <div class="input-field">
+                    <input type="number" name="id" required>
+                    <label>ID da Caixa *</label>
+                </div>
+                <button type="submit" class="btn teal">
+                    <i class="material-icons left">search</i>Buscar
+                </button>
+            </form>
+
+            <div th:if="${resultadoBusca}" style="margin-top: 20px;">
+                <h6>Resultado:</h6>
+                <p><strong>ID:</strong> <span th:text="${resultadoBusca.id}"></span></p>
+                <p><strong>Altura:</strong> <span th:text="${resultadoBusca.altura}"></span> m</p>
+                <p><strong>Largura:</strong> <span th:text="${resultadoBusca.largura}"></span> m</p>
+                <p><strong>Comprimento:</strong> <span th:text="${resultadoBusca.comprimento}"></span> m</p>
+                <p><strong>Limite de Peso:</strong> <span th:text="${resultadoBusca.limitePeso}"></span> kg</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Excluir -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Excluir Caixa</span>
+            <form th:action="@{/caixa/excluir}" method="post"
+                  onsubmit="return confirm('Deseja realmente excluir esta caixa?')">
+                <div class="input-field">
+                    <input type="number" name="id" required>
+                    <label>ID da Caixa *</label>
+                </div>
+                <button type="submit" class="btn red">
+                    <i class="material-icons left">delete</i>Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Listar -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Todas as Caixas</span>
+            <form th:action="@{/caixa/listar}" method="post">
+                <button type="submit" class="btn teal">
+                    <i class="material-icons left">list</i>Listar Todas
+                </button>
+            </form>
+
+            <div th:if="${listaCaixas}" style="margin-top: 20px;">
+                <table class="highlight responsive-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Altura (m)</th>
+                        <th>Largura (m)</th>
+                        <th>Comprimento (m)</th>
+                        <th>Limite Peso (kg)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="caixa : ${listaCaixas}">
+                        <td th:text="${caixa.id}"></td>
+                        <td th:text="${caixa.altura}"></td>
+                        <td th:text="${caixa.largura}"></td>
+                        <td th:text="${caixa.comprimento}"></td>
+                        <td th:text="${caixa.limitePeso}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn-flat" th:href="@{/}">
+                <i class="material-icons left">home</i>Voltar ao Início
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

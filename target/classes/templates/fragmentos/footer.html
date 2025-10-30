@@ -1,0 +1,17 @@
+<footer th:fragment="footer">
+    <footer class="page-footer teal darken-3">
+        <div class="footer-copyright">
+            <div class="container center-align">© 2025 KIP² • FrotaLux</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          M.Sidenav.init(document.querySelectorAll('.sidenav'));
+          M.FormSelect.init(document.querySelectorAll('select'));
+          M.Tooltip.init(document.querySelectorAll('.tooltipped'));
+          M.updateTextFields();
+        });
+    </script>
+</footer>

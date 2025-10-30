@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Resultado do Frete')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='solicitacao')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align">Resultado do Frete</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card">
+                <div class="card-content center-align">
+                    <i class="material-icons large teal-text">check_circle</i>
+                    <h5 style="margin-top: 20px;">Valor do Frete</h5>
+                    <h3 class="teal-text" th:text="'R$ ' + ${valorFrete}">R$ 0,00</h3>
+                </div>
+                <div class="card-action center-align">
+                    <a th:href="@{/solicitacao}" class="btn teal waves-effect">
+                        <i class="material-icons left">add</i>Nova Solicitação
+                    </a>
+                    <a th:href="@{/}" class="btn-flat waves-effect">
+                        <i class="material-icons left">home</i>Início
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>
