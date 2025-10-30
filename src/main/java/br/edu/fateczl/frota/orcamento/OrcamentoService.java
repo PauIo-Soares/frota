@@ -30,6 +30,7 @@ public class OrcamentoService {
         Double pesoCubado = solicitacaoService.calcularPesoCubado(volume);
         Double pesoParaCobranca = Math.max(pesoCubado, solicitacao.peso());
         Double valorCobrancaPorPeso = pesoParaCobranca * PRECO_POR_KG;
+        // Futuramente da pra multiplicar quantidade de caixas por preco por caixa
         Double valorCobrancaPorCaixa = PRECO_POR_CAIXA;
 
         Double valorFrete = Math.max(valorCobrancaPorPeso, valorCobrancaPorCaixa);
