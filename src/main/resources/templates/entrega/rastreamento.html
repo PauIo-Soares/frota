@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Rastreamento de Entrega')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='entrega')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+  <div class="row">
+    <div class="col s12">
+      <h4 class="teal-text">Rastreamento - Entrega #<span th:text="${entrega.id()}"></span></h4>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <div class="row">
+        <div class="col s12">
+          <h6>Status da Entrega</h6>
+          <div class="progress-wrapper" style="margin: 30px 0;">
+            <div class="row">
+              <div class="col s3 center-align">
+                <i class="material-icons large"
+                   th:classappend="${entrega.dataColeta() != null ? 'teal-text' : 'grey-text'}">
+                  archive
+                </i>
+                <p><strong>Coleta</strong></p>
+                <p class="grey-text" th:if="${entrega.dataColeta() != null}"
+                   th:text="${#temporals.format(entrega.dataColeta(), 'dd/MM HH:mm')}"></p>
+              </div>
+              <div class="col s3 center-align">
+                <i class="material-icons large"
+                   th:classappend="${entrega.dataProcessamento() != null ? 'teal-text' : 'grey-text'}">
+                  inventory
+                </i>
+                <p><strong>Processamento</strong></p>
+                <p class="grey-text" th:if="${entrega.dataProcessamento() != null}"
+                   th:text="${#temporals.format(entrega.dataProcessamento(), 'dd/MM HH:mm')}"></p>
+              </div>
+              <div class="col s3 center-align">
+                <i class="material-icons large"
+                   th:classappend="${entrega.dataEmTransito() != null ? 'teal-text' : 'grey-text'}">
+                  local_shipping
+                </i>
+                <p><strong>A Caminho</strong></p>
+                <p class="grey-text" th:if="${entrega.dataEmTransito() != null}"
+                   th:text="${#temporals.format(entrega.dataEmTransito(), 'dd/MM HH:mm')}"></p>
+              </div>
+              <div class="col s3 center-align">
+                <i class="material-icons large"
+                   th:classappend="${entrega.dataEntregue() != null ? 'green-text' : 'grey-text'}">
+                  check_circle
+                </i>
+                <p><strong>Entregue</strong></p>
+                <p class="grey-text" th:if="${entrega.dataEntregue() != null}"
+                   th:text="${#temporals.format(entrega.dataEntregue(), 'dd/MM HH:mm')}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col s12 m6">
+          <h6>Informações</h6>
+          <p><strong>ID da Solicitação:</strong> <span th:text="${entrega.solicitacaoId()}"></span></p>
+          <p><strong>Cliente ID:</strong> <span th:text="${entrega.clienteId()}"></span></p>
+          <p><strong>Caminhão ID:</strong>
+            <span th:text="${entrega.caminhaoId() != null ? entrega.caminhaoId() : 'Não atribuído'}"></span>
+          </p>
+        </div>
+        <div class="col s12 m6">
+          <h6>Horários</h6>
+          <p><strong>Retirada Solicitada:</strong>
+            <span th:text="${#temporals.format(entrega.horarioRetiradaSolicitado(), 'dd/MM/yyyy HH:mm')}"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="card-action">
+      <a th:href="@{/entrega}" class="btn-flat">
+        <i class="material-icons left">arrow_back</i>Voltar
+      </a>
+      <a th:href="@{'/entrega/' + ${entrega.id()} + '/feedback'}"
+         class="btn teal" th:if="${entrega.status() == 'ENTREGUE'}">
+        <i class="material-icons left">comment</i>Dar Feedback
+      </a>
+      <a th:href="@{'/entrega/' + ${entrega.id()} + '/avaliacao'}"
+         class="btn orange" th:if="${entrega.status() == 'ENTREGUE'}">
+        <i class="material-icons left">star</i>Avaliar
+      </a>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

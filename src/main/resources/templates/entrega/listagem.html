@@ -1,0 +1,90 @@
+
+<!-- entrega/listagem.html -->
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Entregas')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='entrega')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+  <div class="row">
+    <div class="col s12">
+      <h4 class="teal-text">Gestão de Entregas</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <a class="btn teal" th:href="@{/entrega/formulario}">
+        <i class="material-icons left">add</i>Nova Entrega
+      </a>
+      <a class="btn orange" th:href="@{/entrega/otimizar}">
+        <i class="material-icons left">settings</i>Otimizar Carga
+      </a>
+      <a class="btn-flat" th:href="@{/}">
+        <i class="material-icons left">home</i>Início
+      </a>
+    </div>
+  </div>
+
+  <div th:if="${message}" class="card-panel green lighten-4 green-text">
+    <span th:text="${message}"></span>
+  </div>
+
+  <div th:if="${error}" class="card-panel red lighten-4 red-text">
+    <span th:text="${error}"></span>
+  </div>
+
+  <div th:if="${entregas != null && !entregas.isEmpty()}" class="card">
+    <div class="card-content">
+      <table class="highlight responsive-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Status</th>
+          <th>Caminhão</th>
+          <th>Horário Retirada</th>
+          <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entrega : ${entregas}">
+          <td th:text="${entrega.id()}"></td>
+          <td th:text="${entrega.clienteId()}"></td>
+          <td>
+                        <span class="chip"
+                              th:classappend="${entrega.status() == 'COLETA' ? 'blue white-text' :
+                                             entrega.status() == 'EM_PROCESSAMENTO' ? 'orange white-text' :
+                                             entrega.status() == 'A_CAMINHO_DA_ENTREGA' ? 'purple white-text' :
+                                             'green white-text'}"
+                              th:text="${entrega.status()}">
+                        </span>
+          </td>
+          <td th:text="${entrega.caminhaoId() != null ? entrega.caminhaoId() : 'Não atribuído'}"></td>
+          <td th:text="${#temporals.format(entrega.horarioRetiradaSolicitado(), 'dd/MM/yyyy HH:mm')}"></td>
+          <td>
+            <a class="btn-flat tooltipped" data-tooltip="Rastrear"
+               th:href="@{'/entrega/rastrear/' + ${entrega.id()}}">
+              <i class="material-icons">location_on</i>
+            </a>
+            <a class="btn-flat tooltipped" data-tooltip="Feedback"
+               th:href="@{'/entrega/' + ${entrega.id()} + '/feedback'}">
+              <i class="material-icons">comment</i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div th:if="${entregas == null || entregas.isEmpty()}"
+       class="card-panel yellow lighten-4">
+    Nenhuma entrega cadastrada.
+  </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>
