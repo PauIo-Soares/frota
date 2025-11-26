@@ -29,7 +29,7 @@ public class Entrega {
     private SolicitacaoEntity solicitacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "caminhao_id", nullable = false)
+    @JoinColumn(name = "caminhao_id")
     private Caminhao caminhao;
 
     @ManyToOne(fetch = FetchType.LAZY)
