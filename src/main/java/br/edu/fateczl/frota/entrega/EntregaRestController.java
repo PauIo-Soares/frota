@@ -1,9 +1,5 @@
 package br.edu.fateczl.frota.entrega;
 
-import br.edu.fateczl.frota.AvaliacaoRecebedorDTO;
-import br.edu.fateczl.frota.CriarEntregaDTO;
-import br.edu.fateczl.frota.EntregaDTO;
-import br.edu.fateczl.frota.FeedbackClienteDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,4 +75,5 @@ public class EntregaRestController {
         Map<Long, List<EntregaDTO>> distribuicao = entregaService.otimizarCargaCaminhao();
         return ResponseEntity.ok(distribuicao);
     }
+
 }

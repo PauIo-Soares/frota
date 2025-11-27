@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Otimização de Carga')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='entrega')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Otimização de Carga dos Caminhões</h4>
+            <p class="grey-text">Distribuição sugerida para maximizar a ocupação dos caminhões</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn-flat" th:href="@{/entrega}">
+                <i class="material-icons left">arrow_back</i>Voltar
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${distribuicao != null && !distribuicao.isEmpty()}">
+        <div th:each="entry : ${distribuicao}" class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    <i class="material-icons left">local_shipping</i>
+                    Caminhão ID: <span th:text="${entry.key}"></span>
+                </span>
+
+                <p><strong>Entregas sugeridas:</strong> <span th:text="${entry.value.size()}"></span></p>
+
+                <table class="highlight responsive-table" style="margin-top: 20px;">
+                    <thead>
+                    <tr>
+                        <th>ID Entrega</th>
+                        <th>Solicitação</th>
+                        <th>Cliente</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entrega : ${entry.value}">
+                        <td th:text="${entrega.id()}"></td>
+                        <td th:text="${entrega.solicitacaoId()}"></td>
+                        <td th:text="${entrega.clienteId()}"></td>
+                        <td>
+                            <span class="chip blue white-text" th:text="${entrega.status()}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="card-action">
+                    <p class="grey-text">
+                        <i class="material-icons tiny">info</i>
+                        Esta distribuição considera peso máximo e volume do caminhão
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${distribuicao == null || distribuicao.isEmpty()}"
+         class="card-panel yellow lighten-4">
+        <i class="material-icons left">info</i>
+        Não há entregas pendentes para otimizar ou todos os caminhões estão ocupados.
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

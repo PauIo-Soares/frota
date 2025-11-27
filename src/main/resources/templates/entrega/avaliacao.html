@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Avaliar Entrega')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='entrega')}"></header>
+
+<div class="container" style="margin-top: 20px; max-width: 800px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align">Avaliar Entrega #<span th:text="${entrega.id()}"></span></h4>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="card-panel red lighten-4 red-text">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <p class="grey-text center-align">Como foi a experiência de recebimento?</p>
+
+            <form th:action="@{/entrega/avaliacao}" method="post">
+                <input type="hidden" name="entregaId" th:value="${entrega.id()}">
+
+                <div class="center-align" style="margin: 30px 0;">
+                    <p><strong>Nota da Entrega</strong></p>
+                    <p>
+                        <label>
+                            <input name="nota" type="radio" value="1" required/>
+                            <span>⭐ 1 - Péssimo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="nota" type="radio" value="2" required/>
+                            <span>⭐⭐ 2 - Ruim</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="nota" type="radio" value="3" required/>
+                            <span>⭐⭐⭐ 3 - Regular</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="nota" type="radio" value="4" required/>
+                            <span>⭐⭐⭐⭐ 4 - Bom</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="nota" type="radio" value="5" required/>
+                            <span>⭐⭐⭐⭐⭐ 5 - Excelente</span>
+                        </label>
+                    </p>
+                </div>
+
+                <div class="input-field">
+                    <textarea name="comentario" class="materialize-textarea"
+                              maxlength="500"></textarea>
+                    <label>Comentário (opcional)</label>
+                    <span class="helper-text">Máximo 500 caracteres</span>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12 center-align">
+                        <button type="submit" class="btn teal waves-effect">
+                            <i class="material-icons left">star</i>Enviar Avaliação
+                        </button>
+                        <a th:href="@{'/entrega/rastrear/' + ${entrega.id()}}" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i>Voltar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

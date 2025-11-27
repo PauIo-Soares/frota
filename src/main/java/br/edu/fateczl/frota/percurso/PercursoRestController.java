@@ -1,8 +1,5 @@
 package br.edu.fateczl.frota.percurso;
 
-import br.edu.fateczl.frota.FinalizarPercursoDTO;
-import br.edu.fateczl.frota.IniciarPercursoDTO;
-import br.edu.fateczl.frota.PercursoDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

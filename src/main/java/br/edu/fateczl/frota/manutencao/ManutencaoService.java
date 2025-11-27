@@ -1,9 +1,10 @@
 package br.edu.fateczl.frota.manutencao;
 
-import br.edu.fateczl.frota.*;
 import br.edu.fateczl.frota.caminhao.Caminhao;
 import br.edu.fateczl.frota.caminhao.CaminhaoRepository;
 import br.edu.fateczl.frota.caminhaokm.CaminhaoKm;
+import br.edu.fateczl.frota.caminhaokm.CaminhaoKmDTO;
+import br.edu.fateczl.frota.caminhaokm.CaminhaoKmRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

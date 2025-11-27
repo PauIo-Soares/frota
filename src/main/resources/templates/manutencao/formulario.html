@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Registrar Manutenção')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='manutencao')}"></header>
+
+<div class="container" style="margin-top: 20px; max-width: 800px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align">Registrar Manutenção</h4>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="card-panel red lighten-4 red-text">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <form th:action="@{/manutencao/registrar}" method="post">
+                <div class="input-field">
+                    <select name="caminhaoId" required>
+                        <option value="" disabled
+                                th:selected="${caminhaoId == null}">Selecione um caminhão
+                        </option>
+                        <option th:each="caminhao : ${caminhoes}"
+                                th:value="${caminhao.id}"
+                                th:selected="${caminhaoId != null && caminhao.id == caminhaoId}"
+                                th:text="${caminhao.modelo + ' - ' + caminhao.placa}"></option>
+                    </select>
+                    <label>Caminhão *</label>
+                </div>
+
+                <div class="input-field">
+                    <select name="tipo" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option th:each="tipo : ${tipos}"
+                                th:value="${tipo.name()}"
+                                th:text="${tipo.descricao}"></option>
+                    </select>
+                    <label>Tipo de Manutenção *</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="number" step="0.01" name="kmRealizada" required>
+                    <label>Quilometragem Atual (Km) *</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="number" step="0.01" name="custo" required>
+                    <label>Custo (R$) *</label>
+                </div>
+
+                <div class="input-field">
+                    <textarea name="observacoes" class="materialize-textarea"
+                              maxlength="500"></textarea>
+                    <label>Observações</label>
+                    <span class="helper-text">Máximo 500 caracteres</span>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12">
+                        <button type="submit" class="btn teal waves-effect">
+                            <i class="material-icons left">save</i>Registrar Manutenção
+                        </button>
+                        <a th:href="@{/manutencao}" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i>Voltar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card blue lighten-5">
+        <div class="card-content">
+            <span class="card-title">
+                <i class="material-icons left">info</i>Tipos de Manutenção
+            </span>
+            <ul class="browser-default">
+                <li><strong>PREVENTIVA_10K:</strong> Manutenção preventiva a cada 10.000 Km (óleos, filtros, pastilhas)
+                </li>
+                <li><strong>TROCA_PNEUS:</strong> Troca de pneus a cada 70.000 Km</li>
+                <li><strong>CORRETIVA:</strong> Manutenção corretiva não programada</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

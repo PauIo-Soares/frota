@@ -1,9 +1,9 @@
 package br.edu.fateczl.frota.entrega;
 
-import br.edu.fateczl.frota.*;
 import br.edu.fateczl.frota.caminhao.Caminhao;
 import br.edu.fateczl.frota.caminhao.CaminhaoRepository;
 import br.edu.fateczl.frota.cliente.Cliente;
+import br.edu.fateczl.frota.cliente.ClienteRepository;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoEntity;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoRepository;
 import jakarta.persistence.EntityNotFoundException;

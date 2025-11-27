@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Histórico de Percursos')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='percurso')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Histórico de Percursos - Caminhão #<span th:text="${caminhaoId}"></span></h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn-flat" th:href="@{/percurso}">
+                <i class="material-icons left">arrow_back</i>Voltar
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${message}" class="card-panel green lighten-4 green-text">
+        <span th:text="${message}"></span>
+    </div>
+
+    <div class="card blue lighten-5">
+        <div class="card-content">
+            <span class="card-title">
+                <i class="material-icons left">assessment</i>Total de Quilômetros
+            </span>
+            <h3 class="teal-text" th:text="${totalKm} + ' Km'">0 Km</h3>
+        </div>
+    </div>
+
+    <div th:if="${percursos != null && !percursos.isEmpty()}" class="card">
+        <div class="card-content">
+            <span class="card-title">Histórico de Percursos</span>
+
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Entrega</th>
+                    <th>Km Saída</th>
+                    <th>Km Chegada</th>
+                    <th>Km Percorridos</th>
+                    <th>Combustível (L)</th>
+                    <th>Data Saída</th>
+                    <th>Data Chegada</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="percurso : ${percursos}">
+                    <td th:text="${percurso.id()}"></td>
+                    <td th:text="${percurso.entregaId()}"></td>
+                    <td th:text="${percurso.kmSaida()}"></td>
+                    <td th:text="${percurso.kmChegada() != null ? percurso.kmChegada() : 'Em andamento'}"></td>
+                    <td>
+                        <span th:if="${percurso.kmChegada() != null}"
+                              th:text="${percurso.kmChegada() - percurso.kmSaida()} + ' Km'"></span>
+                        <span th:if="${percurso.kmChegada() == null}" class="grey-text">-</span>
+                    </td>
+                    <td th:text="${percurso.combustivelGasto() != null ? percurso.combustivelGasto() : '-'}"></td>
+                    <td th:text="${#temporals.format(percurso.dataSaida(), 'dd/MM/yyyy HH:mm')}"></td>
+                    <td>
+                        <span th:if="${percurso.dataChegada() != null}"
+                              th:text="${#temporals.format(percurso.dataChegada(), 'dd/MM/yyyy HH:mm')}"></span>
+                        <span th:if="${percurso.dataChegada() == null}" class="orange-text">Em andamento</span>
+                    </td>
+                    <td>
+                        <a th:if="${percurso.kmChegada() == null}"
+                           class="btn-flat tooltipped" data-tooltip="Finalizar Percurso"
+                           th:href="@{'/percurso/finalizar/' + ${percurso.id()}}">
+                            <i class="material-icons orange-text">stop</i>
+                        </a>
+                        <span th:if="${percurso.kmChegada() != null}"
+                              class="green-text">
+                            <i class="material-icons">check_circle</i>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:if="${percursos == null || percursos.isEmpty()}"
+         class="card-panel yellow lighten-4">
+        Nenhum percurso registrado para este caminhão.
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

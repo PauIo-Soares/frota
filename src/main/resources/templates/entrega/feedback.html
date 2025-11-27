@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Feedback da Entrega')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='entrega')}"></header>
+
+<div class="container" style="margin-top: 20px; max-width: 800px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align">Feedback da Entrega #<span th:text="${entrega.id()}"></span></h4>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="card-panel red lighten-4 red-text">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <p class="grey-text">Compartilhe sua experiência com esta entrega</p>
+
+            <form th:action="@{/entrega/feedback}" method="post">
+                <input type="hidden" name="entregaId" th:value="${entrega.id()}">
+
+                <div class="input-field">
+                    <textarea name="feedbackCliente" class="materialize-textarea"
+                              maxlength="500" required></textarea>
+                    <label>Seu Feedback *</label>
+                    <span class="helper-text">Máximo 500 caracteres</span>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12">
+                        <button type="submit" class="btn teal waves-effect">
+                            <i class="material-icons left">send</i>Enviar Feedback
+                        </button>
+                        <a th:href="@{'/entrega/rastrear/' + ${entrega.id()}}" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i>Voltar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

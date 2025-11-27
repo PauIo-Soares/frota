@@ -1,6 +1,5 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.caminhaokm;
 
-import br.edu.fateczl.frota.caminhaokm.CaminhaoKm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

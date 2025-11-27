@@ -1,4 +1,4 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.entrega;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

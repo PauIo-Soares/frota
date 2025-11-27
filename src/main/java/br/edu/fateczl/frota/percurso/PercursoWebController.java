@@ -1,8 +1,5 @@
 package br.edu.fateczl.frota.percurso;
 
-import br.edu.fateczl.frota.FinalizarPercursoDTO;
-import br.edu.fateczl.frota.IniciarPercursoDTO;
-import br.edu.fateczl.frota.PercursoDTO;
 import br.edu.fateczl.frota.caminhao.CaminhaoService;
 import br.edu.fateczl.frota.entrega.EntregaService;
 import jakarta.validation.Valid;

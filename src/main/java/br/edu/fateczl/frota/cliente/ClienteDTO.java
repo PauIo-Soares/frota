@@ -1,4 +1,4 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.cliente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

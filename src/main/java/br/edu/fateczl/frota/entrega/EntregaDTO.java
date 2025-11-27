@@ -1,4 +1,4 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.entrega;
 
 import java.time.LocalDateTime;
 

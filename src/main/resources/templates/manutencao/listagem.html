@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Manutenções')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='manutencao')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Gestão de Manutenções</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn teal" th:href="@{/manutencao/formulario}">
+                <i class="material-icons left">add</i>Registrar Manutenção
+            </a>
+            <a class="btn-flat" th:href="@{/}">
+                <i class="material-icons left">home</i>Início
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${message}" class="card-panel green lighten-4 green-text">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- Alertas de Manutenções Pendentes -->
+    <div th:if="${manutencoesPendentes != null && !manutencoesPendentes.isEmpty()}"
+         class="card red lighten-4">
+        <div class="card-content">
+            <span class="card-title red-text">
+                <i class="material-icons left">warning</i>
+                Manutenções Preventivas Pendentes (10.000 Km)
+            </span>
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>Caminhão ID</th>
+                    <th>Km Atual</th>
+                    <th>Km Última Manutenção</th>
+                    <th>Km para Próxima</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="caminhaoKm : ${manutencoesPendentes}">
+                    <td th:text="${caminhaoKm.caminhaoId()}"></td>
+                    <td th:text="${caminhaoKm.kmAtual()} + ' Km'"></td>
+                    <td th:text="${caminhaoKm.kmUltimaManutencao() != null ? caminhaoKm.kmUltimaManutencao() + ' Km' : 'Nunca'}"></td>
+                    <td class="red-text" th:text="${caminhaoKm.kmParaProximaManutencao()} + ' Km'"></td>
+                    <td>
+                        <a class="btn-flat red-text tooltipped" data-tooltip="Registrar Manutenção"
+                           th:href="@{'/manutencao/formulario?caminhaoId=' + ${caminhaoKm.caminhaoId()}}">
+                            <i class="material-icons">build</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Alertas de Troca de Pneus Pendentes -->
+    <div th:if="${pneusPendentes != null && !pneusPendentes.isEmpty()}"
+         class="card orange lighten-4">
+        <div class="card-content">
+            <span class="card-title orange-text text-darken-3">
+                <i class="material-icons left">warning</i>
+                Trocas de Pneus Pendentes (70.000 Km)
+            </span>
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>Caminhão ID</th>
+                    <th>Km Atual</th>
+                    <th>Km Última Troca</th>
+                    <th>Km para Próxima</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="caminhaoKm : ${pneusPendentes}">
+                    <td th:text="${caminhaoKm.caminhaoId()}"></td>
+                    <td th:text="${caminhaoKm.kmAtual()} + ' Km'"></td>
+                    <td th:text="${caminhaoKm.kmUltimaTrocaPneus() != null ? caminhaoKm.kmUltimaTrocaPneus() + ' Km' : 'Nunca'}"></td>
+                    <td class="orange-text" th:text="${caminhaoKm.kmParaProximaTrocaPneus()} + ' Km'"></td>
+                    <td>
+                        <a class="btn-flat orange-text tooltipped" data-tooltip="Registrar Troca"
+                           th:href="@{'/manutencao/formulario?caminhaoId=' + ${caminhaoKm.caminhaoId()}}">
+                            <i class="material-icons">build</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Lista de Caminhões -->
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Histórico por Caminhão</span>
+            <p class="grey-text">Selecione um caminhão para ver o histórico de manutenções</p>
+
+            <table class="highlight responsive-table" style="margin-top: 20px;">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
+                    <th>Marca</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="caminhao : ${caminhoes}">
+                    <td th:text="${caminhao.id}"></td>
+                    <td th:text="${caminhao.modelo}"></td>
+                    <td th:text="${caminhao.placa}"></td>
+                    <td th:text="${caminhao.marca.nome}"></td>
+                    <td>
+                        <a class="btn-flat tooltipped" data-tooltip="Ver Histórico"
+                           th:href="@{'/manutencao/caminhao/' + ${caminhao.id}}">
+                            <i class="material-icons">history</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

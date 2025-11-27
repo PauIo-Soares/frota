@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Formulário de Cliente')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='cliente')}"></header>
+
+<div class="container" style="margin-top: 20px; max-width: 800px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text center-align"
+                th:text="${cliente.id() != null ? 'Editar Cliente' : 'Novo Cliente'}">
+                Formulário
+            </h4>
+        </div>
+    </div>
+
+    <div th:if="${error}" class="card-panel red lighten-4 red-text">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <form th:action="@{/cliente/salvar}" method="post">
+                <input type="hidden" name="id" th:value="${cliente.id()}">
+
+                <div class="input-field">
+                    <input type="text" name="nome" th:value="${cliente.nome()}" required>
+                    <label th:classappend="${cliente.nome() != null ? 'active' : ''}">Nome Completo *</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="email" name="email" th:value="${cliente.email()}" required>
+                    <label th:classappend="${cliente.email() != null ? 'active' : ''}">Email *</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="telefone" th:value="${cliente.telefone()}" required>
+                    <label th:classappend="${cliente.telefone() != null ? 'active' : ''}">Telefone *</label>
+                    <span class="helper-text">Exemplo: (11) 98765-4321</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="cpfCnpj" th:value="${cliente.cpfCnpj()}" required
+                           th:readonly="${cliente.id() != null}">
+                    <label th:classappend="${cliente.cpfCnpj() != null ? 'active' : ''}">CPF/CNPJ *</label>
+                    <span class="helper-text">Não pode ser alterado após cadastro</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="endereco" th:value="${cliente.endereco()}" required>
+                    <label th:classappend="${cliente.endereco() != null ? 'active' : ''}">Endereço Completo *</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="cep" th:value="${cliente.cep()}" required
+                           maxlength="9" pattern="[0-9]{5}-[0-9]{3}">
+                    <label th:classappend="${cliente.cep() != null ? 'active' : ''}">CEP *</label>
+                    <span class="helper-text">Formato: 12345-678</span>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col s12">
+                        <button type="submit" class="btn teal waves-effect">
+                            <i class="material-icons left">save</i>
+                            <span th:text="${cliente.id() != null ? 'Atualizar' : 'Cadastrar'}">Salvar</span>
+                        </button>
+                        <a th:href="@{/cliente}" class="btn-flat waves-effect">
+                            <i class="material-icons left">arrow_back</i>Voltar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

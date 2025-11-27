@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrotaLux • Sistema de Gestão</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/frota/css/style.css">
-</head>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('FrotaLux - Sistema de Gestão Logística')}"></head>
 <body>
-<nav class="teal darken-3">
-    <div class="container">
-        <a href="/frota/" class="brand-logo">
-            <i class="material-icons left">local_shipping</i>FrotaLux
-        </a>
-    </div>
-</nav>
+<header th:replace="~{fragmentos/header :: header(activePage='home')}"></header>
 
 <div class="container">
     <div class="section">
-        <h4 class="center-align">Sistema de Gestão de Frota</h4>
-        <p class="center-align grey-text">Gerencie caminhões, marcas, caixas e calcule fretes</p>
+        <h4 class="center-align teal-text">Sistema de Gestão Logística FrotaLux</h4>
+        <p class="center-align grey-text">Gerencie caminhões, entregas, percursos e manutenções em um só lugar</p>
+    </div>
+
+    <!-- Frota -->
+    <div class="row">
+        <div class="col s12">
+            <h5 class="teal-text">
+                <i class="material-icons left">local_shipping</i>Frota
+            </h5>
+        </div>
     </div>
 
     <div class="row">
@@ -29,9 +25,10 @@
                 <div class="card-content center-align">
                     <i class="material-icons large teal-text">local_shipping</i>
                     <h6>Caminhões</h6>
+                    <p class="grey-text">Gerencie a frota</p>
                 </div>
                 <div class="card-action center-align">
-                    <a class="btn teal" href="/frota/caminhao">Acessar</a>
+                    <a class="btn teal" th:href="@{/caminhao}">Acessar</a>
                 </div>
             </div>
         </div>
@@ -41,45 +38,157 @@
                 <div class="card-content center-align">
                     <i class="material-icons large teal-text">apartment</i>
                     <h6>Marcas</h6>
+                    <p class="grey-text">Cadastro de marcas</p>
                 </div>
                 <div class="card-action center-align">
-                    <a class="btn teal" href="/frota/marca">Acessar</a>
+                    <a class="btn teal" th:href="@{/marca}">Acessar</a>
                 </div>
             </div>
         </div>
 
         <div class="col s12 m6 l3">
+            <div class="card hoverable">
+                <div class="card-content center-align">
+                    <i class="material-icons large orange-text">build</i>
+                    <h6>Manutenções</h6>
+                    <p class="grey-text">Controle de manutenções</p>
+                </div>
+                <div class="card-action center-align">
+                    <a class="btn orange" th:href="@{/manutencao}">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+            <div class="card hoverable">
+                <div class="card-content center-align">
+                    <i class="material-icons large purple-text">route</i>
+                    <h6>Percursos</h6>
+                    <p class="grey-text">Histórico de viagens</p>
+                </div>
+                <div class="card-action center-align">
+                    <a class="btn purple" th:href="@{/percurso}">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Operações -->
+    <div class="row" style="margin-top: 30px;">
+        <div class="col s12">
+            <h5 class="teal-text">
+                <i class="material-icons left">business_center</i>Operações
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m6 l4">
+            <div class="card hoverable">
+                <div class="card-content center-align">
+                    <i class="material-icons large blue-text">local_shipping</i>
+                    <h6>Entregas</h6>
+                    <p class="grey-text">Gestão de entregas</p>
+                </div>
+                <div class="card-action center-align">
+                    <a class="btn blue" th:href="@{/entrega}">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6 l4">
+            <div class="card hoverable">
+                <div class="card-content center-align">
+                    <i class="material-icons large green-text">people</i>
+                    <h6>Clientes</h6>
+                    <p class="grey-text">Cadastro de clientes</p>
+                </div>
+                <div class="card-action center-align">
+                    <a class="btn green" th:href="@{/cliente}">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6 l4">
+            <div class="card hoverable">
+                <div class="card-content center-align">
+                    <i class="material-icons large orange-text">settings</i>
+                    <h6>Otimizar Carga</h6>
+                    <p class="grey-text">Distribuição inteligente</p>
+                </div>
+                <div class="card-action center-align">
+                    <a class="btn orange" th:href="@{/entrega/otimizar}">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Configurações -->
+    <div class="row" style="margin-top: 30px;">
+        <div class="col s12">
+            <h5 class="teal-text">
+                <i class="material-icons left">settings</i>Configurações
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m6">
             <div class="card hoverable">
                 <div class="card-content center-align">
                     <i class="material-icons large teal-text">inventory_2</i>
-                    <h6>Caixas</h6>
+                    <h6>Caixas Padronizadas</h6>
+                    <p class="grey-text">Gerenciar caixas</p>
                 </div>
                 <div class="card-action center-align">
-                    <a class="btn teal" href="/frota/caixa">Acessar</a>
+                    <a class="btn teal" th:href="@{/caixa}">Acessar</a>
                 </div>
             </div>
         </div>
 
-        <div class="col s12 m6 l3">
+        <div class="col s12 m6">
             <div class="card hoverable">
                 <div class="card-content center-align">
-                    <i class="material-icons large teal-text">request_quote</i>
-                    <h6>Solicitar Frete</h6>
+                    <i class="material-icons large blue-text">request_quote</i>
+                    <h6>Calcular Frete</h6>
+                    <p class="grey-text">Solicitar orçamento</p>
                 </div>
                 <div class="card-action center-align">
-                    <a class="btn teal" href="/frota/solicitacao">Calcular</a>
+                    <a class="btn blue" th:href="@{/solicitacao}">Calcular</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Sistema -->
+    <div class="row" style="margin-top: 30px;">
+        <div class="col s12">
+            <div class="card blue-grey lighten-5">
+                <div class="card-content">
+                    <span class="card-title">
+                        <i class="material-icons left">info</i>Sobre o Sistema
+                    </span>
+                    <p>O FrotaLux é um sistema completo de gestão logística que oferece:</p>
+                    <ul class="browser-default">
+                        <li>Controle completo da frota de caminhões</li>
+                        <li>Registro de percursos com quilometragem e combustível</li>
+                        <li>Sistema de manutenção preventiva automático (10.000 Km)</li>
+                        <li>Controle de troca de pneus (70.000 Km)</li>
+                        <li>Gestão de entregas com 4 etapas de rastreamento</li>
+                        <li>Otimização inteligente de carga dos caminhões</li>
+                        <li>Sistema de feedback e avaliação</li>
+                        <li>Cálculo automático de frete com integração Google Maps</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<footer class="page-footer teal darken-3">
-    <div class="footer-copyright">
-        <div class="container center-align">© 2025 KIP² • FrotaLux</div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+<div th:replace="~{fragmentos/footer :: footer}"></div>
 </body>
 </html>

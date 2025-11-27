@@ -1,6 +1,5 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.manutencao;
 
-import br.edu.fateczl.frota.manutencao.Manutencao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

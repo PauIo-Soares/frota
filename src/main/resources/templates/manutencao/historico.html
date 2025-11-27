@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Histórico de Manutenções')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='manutencao')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Histórico de Manutenções - Caminhão #<span th:text="${caminhaoId}"></span></h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn teal" th:href="@{'/manutencao/formulario?caminhaoId=' + ${caminhaoId}}">
+                <i class="material-icons left">add</i>Nova Manutenção
+            </a>
+            <a class="btn-flat" th:href="@{/manutencao}">
+                <i class="material-icons left">arrow_back</i>Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Status do Caminhão -->
+    <div th:if="${status != null}" class="card">
+        <div class="card-content">
+            <span class="card-title">
+                <i class="material-icons left">assessment</i>Status do Caminhão
+            </span>
+            <div class="row">
+                <div class="col s12 m6">
+                    <p><strong>Quilometragem Atual:</strong>
+                        <span class="teal-text" th:text="${status.kmAtual()} + ' Km'"></span>
+                    </p>
+                    <p><strong>Última Manutenção Preventiva:</strong>
+                        <span th:text="${status.kmUltimaManutencao() != null ? status.kmUltimaManutencao() + ' Km' : 'Nunca realizada'}"></span>
+                    </p>
+                    <p><strong>Última Troca de Pneus:</strong>
+                        <span th:text="${status.kmUltimaTrocaPneus() != null ? status.kmUltimaTrocaPneus() + ' Km' : 'Nunca realizada'}"></span>
+                    </p>
+                </div>
+                <div class="col s12 m6">
+                    <p>
+                        <strong>Km para Próxima Manutenção:</strong>
+                        <span th:classappend="${status.precisaManutencao() ? 'red-text' : 'green-text'}"
+                              th:text="${status.kmParaProximaManutencao()} + ' Km'"></span>
+                    </p>
+                    <p>
+                        <strong>Km para Próxima Troca de Pneus:</strong>
+                        <span th:classappend="${status.precisaTrocaPneus() ? 'orange-text' : 'green-text'}"
+                              th:text="${status.kmParaProximaTrocaPneus()} + ' Km'"></span>
+                    </p>
+                </div>
+            </div>
+
+            <div th:if="${status.precisaManutencao()}" class="card-panel red lighten-4 red-text">
+                <i class="material-icons left">warning</i>
+                <strong>ATENÇÃO:</strong> Este caminhão precisa de manutenção preventiva!
+            </div>
+
+            <div th:if="${status.precisaTrocaPneus()}" class="card-panel orange lighten-4 orange-text">
+                <i class="material-icons left">warning</i>
+                <strong>ATENÇÃO:</strong> Este caminhão precisa de troca de pneus!
+            </div>
+        </div>
+    </div>
+
+    <!-- Histórico de Manutenções -->
+    <div th:if="${historico != null && !historico.isEmpty()}" class="card">
+        <div class="card-content">
+            <span class="card-title">Histórico de Manutenções</span>
+
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Km Realizada</th>
+                    <th>Data</th>
+                    <th>Custo</th>
+                    <th>Observações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="manutencao : ${historico}">
+                    <td th:text="${manutencao.id()}"></td>
+                    <td>
+                        <span class="chip"
+                              th:classappend="${manutencao.tipo() == 'PREVENTIVA_10K' ? 'blue white-text' :
+                                             manutencao.tipo() == 'TROCA_PNEUS' ? 'orange white-text' :
+                                             'grey white-text'}"
+                              th:text="${manutencao.tipo()}">
+                        </span>
+                    </td>
+                    <td th:text="${manutencao.kmRealizada()} + ' Km'"></td>
+                    <td th:text="${#temporals.format(manutencao.dataManutencao(), 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(manutencao.custo(), 1, 'POINT', 2, 'COMMA')}"></td>
+                    <td th:text="${manutencao.observacoes() != null ? manutencao.observacoes() : '-'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:if="${historico == null || historico.isEmpty()}"
+         class="card-panel yellow lighten-4">
+        Nenhuma manutenção registrada para este caminhão.
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

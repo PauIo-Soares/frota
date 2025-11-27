@@ -1,10 +1,11 @@
 package br.edu.fateczl.frota.percurso;
 
-import br.edu.fateczl.frota.*;
 import br.edu.fateczl.frota.caminhao.Caminhao;
 import br.edu.fateczl.frota.caminhao.CaminhaoRepository;
 import br.edu.fateczl.frota.caminhaokm.CaminhaoKm;
+import br.edu.fateczl.frota.caminhaokm.CaminhaoKmRepository;
 import br.edu.fateczl.frota.entrega.Entrega;
+import br.edu.fateczl.frota.entrega.EntregaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
-package br.edu.fateczl.frota;
+package br.edu.fateczl.frota.cliente;
 
-import br.edu.fateczl.frota.cliente.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

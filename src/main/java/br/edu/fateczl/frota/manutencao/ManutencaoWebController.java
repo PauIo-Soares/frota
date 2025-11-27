@@ -1,8 +1,6 @@
 package br.edu.fateczl.frota.manutencao;
 
-import br.edu.fateczl.frota.CaminhaoKmDTO;
-import br.edu.fateczl.frota.CriarManutencaoDTO;
-import br.edu.fateczl.frota.ManutencaoDTO;
+import br.edu.fateczl.frota.caminhaokm.CaminhaoKmDTO;
 import br.edu.fateczl.frota.caminhao.CaminhaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,21 +11,16 @@
                 <li th:classappend="${activePage == 'home'} ? 'active' : ''">
                     <a th:href="@{/}"><i class="material-icons left">home</i>Início</a>
                 </li>
-
-                <!-- Dropdown Frota -->
                 <li>
                     <a class="dropdown-trigger" href="#!" data-target="dropdown-frota">
                         Frota<i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-
-                <!-- Dropdown Operações -->
                 <li>
                     <a class="dropdown-trigger" href="#!" data-target="dropdown-operacoes">
                         Operações<i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-
                 <li th:classappend="${activePage == 'caixa'} ? 'active' : ''">
                     <a th:href="@{/caixa}"><i class="material-icons left">inventory_2</i>Caixas</a>
                 </li>
@@ -35,8 +30,6 @@
             </ul>
         </div>
     </nav>
-
-    <!-- Dropdown Frota -->
     <ul id="dropdown-frota" class="dropdown-content">
         <li><a th:href="@{/caminhao}"><i class="material-icons left">local_shipping</i>Caminhões</a></li>
         <li><a th:href="@{/marca}"><i class="material-icons left">apartment</i>Marcas</a></li>
@@ -44,16 +37,13 @@
         <li><a th:href="@{/manutencao}"><i class="material-icons left">build</i>Manutenções</a></li>
         <li><a th:href="@{/percurso}"><i class="material-icons left">route</i>Percursos</a></li>
     </ul>
-
-    <!-- Dropdown Operações -->
     <ul id="dropdown-operacoes" class="dropdown-content">
         <li><a th:href="@{/entrega}"><i class="material-icons left">local_shipping</i>Entregas</a></li>
         <li><a th:href="@{/entrega/otimizar}"><i class="material-icons left">settings</i>Otimizar Carga</a></li>
         <li class="divider"></li>
         <li><a th:href="@{/cliente}"><i class="material-icons left">people</i>Clientes</a></li>
+        <li><a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Solicitar Frete</a></li>
     </ul>
-
-    <!-- Sidenav Mobile -->
     <ul class="sidenav" id="mobile-nav">
         <li><a th:href="@{/}"><i class="material-icons left">home</i>Início</a></li>
         <li class="divider"></li>
@@ -70,7 +60,6 @@
         <li><a th:href="@{/caixa}"><i class="material-icons left">inventory_2</i>Caixas</a></li>
         <li><a th:href="@{/solicitacao}"><i class="material-icons left">request_quote</i>Calcular Frete</a></li>
     </ul>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.dropdown-trigger');

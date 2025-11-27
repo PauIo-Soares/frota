@@ -1,7 +1,5 @@
 package br.edu.fateczl.frota.cliente;
 
-import br.edu.fateczl.frota.ClienteDTO;
-import br.edu.fateczl.frota.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

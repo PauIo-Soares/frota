@@ -1,9 +1,5 @@
 package br.edu.fateczl.frota.entrega;
 
-import br.edu.fateczl.frota.AvaliacaoRecebedorDTO;
-import br.edu.fateczl.frota.CriarEntregaDTO;
-import br.edu.fateczl.frota.EntregaDTO;
-import br.edu.fateczl.frota.FeedbackClienteDTO;
 import br.edu.fateczl.frota.caminhao.CaminhaoService;
 import br.edu.fateczl.frota.cliente.ClienteService;
 import br.edu.fateczl.frota.solicitacao.SolicitacaoService;

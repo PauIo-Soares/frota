@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Clientes')}"></head>
+<body>
+<header th:replace="~{fragmentos/header :: header(activePage='cliente')}"></header>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="teal-text">Gestão de Clientes</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <a class="btn teal" th:href="@{/cliente/formulario}">
+                <i class="material-icons left">add</i>Novo Cliente
+            </a>
+            <a class="btn-flat" th:href="@{/}">
+                <i class="material-icons left">home</i>Início
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${message}" class="card-panel green lighten-4 green-text">
+        <span th:text="${message}"></span>
+    </div>
+
+    <div th:if="${error}" class="card-panel red lighten-4 red-text">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div th:if="${clientes != null && !clientes.isEmpty()}" class="card">
+        <div class="card-content">
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.id()}"></td>
+                    <td th:text="${cliente.nome()}"></td>
+                    <td th:text="${cliente.email()}"></td>
+                    <td th:text="${cliente.telefone()}"></td>
+                    <td th:text="${cliente.cpfCnpj()}"></td>
+                    <td>
+                        <a class="btn-flat tooltipped" data-tooltip="Editar"
+                           th:href="@{'/cliente/formulario?id=' + ${cliente.id()}}">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a class="btn-flat red-text tooltipped" data-tooltip="Excluir"
+                           th:href="@{'/cliente/excluir/' + ${cliente.id()}}"
+                           onclick="return confirm('Deseja excluir este cliente?')">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:if="${clientes == null || clientes.isEmpty()}"
+         class="card-panel yellow lighten-4">
+        Nenhum cliente cadastrado. Clique em "Novo Cliente" para adicionar.
+    </div>
+</div>
+
+<div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>
