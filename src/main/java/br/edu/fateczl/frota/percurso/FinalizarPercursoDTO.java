@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record FinalizarPercursoDTO(
+
         @NotNull(message = "Percurso é obrigatório")
         Long percursoId,
 
@@ -12,4 +13,5 @@ public record FinalizarPercursoDTO(
 
         @NotNull @Positive(message = "Combustível gasto deve ser positivo")
         Double combustivelGasto
+
 ) {}

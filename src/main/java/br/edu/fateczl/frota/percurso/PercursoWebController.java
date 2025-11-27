@@ -82,4 +82,5 @@ public class PercursoWebController {
             return "redirect:/percurso/finalizar/" + dto.percursoId();
         }
     }
+
 }

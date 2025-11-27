@@ -37,21 +37,17 @@ public class ClienteService {
     }
 
     public ClienteDTO buscarPorId(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
         return toDTO(cliente);
     }
 
     public List<ClienteDTO> listarTodos() {
-        return clienteRepository.findAll().stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return clienteRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public ClienteDTO atualizar(ClienteDTO dto) {
-        Cliente cliente = clienteRepository.findById(dto.id())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        Cliente cliente = clienteRepository.findById(dto.id()).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
 
         cliente.setNome(dto.nome());
         cliente.setTelefone(dto.telefone());
@@ -71,14 +67,7 @@ public class ClienteService {
     }
 
     private ClienteDTO toDTO(Cliente cliente) {
-        return new ClienteDTO(
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getEmail(),
-                cliente.getTelefone(),
-                cliente.getCpfCnpj(),
-                cliente.getEndereco(),
-                cliente.getCep()
-        );
+        return new ClienteDTO(cliente.getId(), cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getCpfCnpj(), cliente.getEndereco(), cliente.getCep());
     }
+
 }

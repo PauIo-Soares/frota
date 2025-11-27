@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record CriarManutencaoDTO(
+
         @NotNull(message = "Caminhão é obrigatório")
         Long caminhaoId,
 
@@ -17,4 +18,5 @@ public record CriarManutencaoDTO(
         Double custo,
 
         String observacoes
+
 ) {}

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record IniciarPercursoDTO(
+
         @NotNull(message = "Caminhão é obrigatório")
         Long caminhaoId,
 
@@ -12,4 +13,5 @@ public record IniciarPercursoDTO(
 
         @NotNull @Positive(message = "Quilometragem de saída deve ser positiva")
         Double kmSaida
+
 ) {}

@@ -8,10 +8,14 @@ import java.util.List;
 
 @Repository
 public interface EntregaRepository extends JpaRepository<Entrega, Long> {
+
     List<Entrega> findByClienteId(Long clienteId);
+
     List<Entrega> findByStatus(Entrega.StatusEntrega status);
+
     List<Entrega> findByCaminhaoId(Long caminhaoId);
 
     @Query("SELECT e FROM Entrega e WHERE e.status != 'ENTREGUE' ORDER BY e.horarioRetiradaSolicitado")
     List<Entrega> findEntregasPendentes();
+
 }

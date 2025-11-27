@@ -45,4 +45,5 @@ public class ManutencaoRestController {
         List<CaminhaoKmDTO> pendentes = manutencaoService.verificarTrocaPneusPendentes();
         return ResponseEntity.ok(pendentes);
     }
+
 }

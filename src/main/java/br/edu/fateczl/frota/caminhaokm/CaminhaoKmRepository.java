@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CaminhaoKmRepository extends JpaRepository<CaminhaoKm, Long> {
+
     Optional<CaminhaoKm> findByCaminhaoId(Long caminhaoId);
 
     @Query("SELECT ck FROM CaminhaoKm ck WHERE (ck.kmAtual - ck.kmUltimaManutencao) >= 10000 OR ck.kmUltimaManutencao IS NULL")
@@ -16,4 +17,5 @@ public interface CaminhaoKmRepository extends JpaRepository<CaminhaoKm, Long> {
 
     @Query("SELECT ck FROM CaminhaoKm ck WHERE (ck.kmAtual - ck.kmUltimaTrocaPneus) >= 70000 OR ck.kmUltimaTrocaPneus IS NULL")
     List<CaminhaoKm> findCaminhoesQueNecessitamTrocaPneus();
+
 }

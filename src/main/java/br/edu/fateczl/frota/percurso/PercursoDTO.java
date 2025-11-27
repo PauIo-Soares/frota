@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 public record PercursoDTO(
+
         Long id,
         Long caminhaoId,
         Long entregaId,
@@ -20,4 +21,5 @@ public record PercursoDTO(
         LocalDateTime dataSaida,
 
         LocalDateTime dataChegada
+
 ) {}

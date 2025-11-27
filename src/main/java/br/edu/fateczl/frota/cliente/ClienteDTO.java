@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record ClienteDTO(
+
         Long id,
 
         @NotBlank(message = "Nome é obrigatório")
@@ -24,4 +25,5 @@ public record ClienteDTO(
 
         @NotBlank(message = "CEP é obrigatório")
         String cep
+
 ) {}

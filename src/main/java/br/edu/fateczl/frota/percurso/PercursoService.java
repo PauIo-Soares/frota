@@ -32,11 +32,9 @@ public class PercursoService {
 
     @Transactional
     public PercursoDTO iniciarPercurso(IniciarPercursoDTO dto) {
-        Caminhao caminhao = caminhaoRepository.findById(dto.caminhaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
+        Caminhao caminhao = caminhaoRepository.findById(dto.caminhaoId()).orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
 
-        Entrega entrega = entregaRepository.findById(dto.entregaId())
-                .orElseThrow(() -> new EntityNotFoundException("Entrega não encontrada"));
+        Entrega entrega = entregaRepository.findById(dto.entregaId()).orElseThrow(() -> new EntityNotFoundException("Entrega não encontrada"));
 
         Percurso percurso = new Percurso();
         percurso.setCaminhao(caminhao);
@@ -50,21 +48,18 @@ public class PercursoService {
 
     @Transactional
     public PercursoDTO finalizarPercurso(FinalizarPercursoDTO dto) {
-        Percurso percurso = percursoRepository.findById(dto.percursoId())
-                .orElseThrow(() -> new EntityNotFoundException("Percurso não encontrado"));
+        Percurso percurso = percursoRepository.findById(dto.percursoId()).orElseThrow(() -> new EntityNotFoundException("Percurso não encontrado"));
 
         percurso.setKmChegada(dto.kmChegada());
         percurso.setCombustivelGasto(dto.combustivelGasto());
         percurso.setDataChegada(LocalDateTime.now());
 
-        // Atualiza quilometragem do caminhão
-        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(percurso.getCaminhao().getId())
-                .orElseGet(() -> {
-                    CaminhaoKm novo = new CaminhaoKm();
-                    novo.setCaminhao(percurso.getCaminhao());
-                    novo.setKmAtual(0.0);
-                    return novo;
-                });
+        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(percurso.getCaminhao().getId()).orElseGet(() -> {
+            CaminhaoKm novo = new CaminhaoKm();
+            novo.setCaminhao(percurso.getCaminhao());
+            novo.setKmAtual(0.0);
+            return novo;
+        });
 
         caminhaoKm.setKmAtual(dto.kmChegada());
         caminhaoKmRepository.save(caminhaoKm);
@@ -74,9 +69,7 @@ public class PercursoService {
     }
 
     public List<PercursoDTO> listarPorCaminhao(Long caminhaoId) {
-        return percursoRepository.findByCaminhaoId(caminhaoId).stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return percursoRepository.findByCaminhaoId(caminhaoId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public Double calcularTotalKm(Long caminhaoId) {
@@ -85,15 +78,7 @@ public class PercursoService {
     }
 
     private PercursoDTO toDTO(Percurso percurso) {
-        return new PercursoDTO(
-                percurso.getId(),
-                percurso.getCaminhao().getId(),
-                percurso.getEntrega().getId(),
-                percurso.getKmSaida(),
-                percurso.getKmChegada(),
-                percurso.getCombustivelGasto(),
-                percurso.getDataSaida(),
-                percurso.getDataChegada()
-        );
+        return new PercursoDTO(percurso.getId(), percurso.getCaminhao().getId(), percurso.getEntrega().getId(), percurso.getKmSaida(), percurso.getKmChegada(), percurso.getCombustivelGasto(), percurso.getDataSaida(), percurso.getDataChegada());
     }
+
 }

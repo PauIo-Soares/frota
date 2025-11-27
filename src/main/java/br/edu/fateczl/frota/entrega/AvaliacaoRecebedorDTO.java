@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record AvaliacaoRecebedorDTO(
+
         @NotNull(message = "Entrega é obrigatória")
         Long entregaId,
 
@@ -14,4 +15,5 @@ public record AvaliacaoRecebedorDTO(
 
         @Size(max = 500, message = "Comentário não pode ter mais de 500 caracteres")
         String comentario
+
 ) {}

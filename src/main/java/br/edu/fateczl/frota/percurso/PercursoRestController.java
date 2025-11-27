@@ -38,4 +38,5 @@ public class PercursoRestController {
         Double total = percursoService.calcularTotalKm(caminhaoId);
         return ResponseEntity.ok(total);
     }
+
 }

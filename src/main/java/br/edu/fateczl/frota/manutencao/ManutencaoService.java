@@ -28,8 +28,7 @@ public class ManutencaoService {
 
     @Transactional
     public ManutencaoDTO registrarManutencao(CriarManutencaoDTO dto) {
-        Caminhao caminhao = caminhaoRepository.findById(dto.caminhaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
+        Caminhao caminhao = caminhaoRepository.findById(dto.caminhaoId()).orElseThrow(() -> new EntityNotFoundException("Caminhão não encontrado"));
 
         Manutencao manutencao = new Manutencao();
         manutencao.setCaminhao(caminhao);
@@ -39,9 +38,7 @@ public class ManutencaoService {
         manutencao.setCusto(dto.custo());
         manutencao.setObservacoes(dto.observacoes());
 
-        // Atualiza registro de KM
-        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(dto.caminhaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Registro de KM não encontrado"));
+        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(dto.caminhaoId()).orElseThrow(() -> new EntityNotFoundException("Registro de KM não encontrado"));
 
         if (manutencao.getTipo() == Manutencao.TipoManutencao.PREVENTIVA_10K) {
             caminhaoKm.setKmUltimaManutencao(dto.kmRealizada());
@@ -55,54 +52,30 @@ public class ManutencaoService {
     }
 
     public List<ManutencaoDTO> listarPorCaminhao(Long caminhaoId) {
-        return manutencaoRepository.findByCaminhaoIdOrderByDataManutencaoDesc(caminhaoId).stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return manutencaoRepository.findByCaminhaoIdOrderByDataManutencaoDesc(caminhaoId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public List<CaminhaoKmDTO> verificarManutencoesPendentes() {
         List<CaminhaoKm> caminhoes = caminhaoKmRepository.findCaminhoesQueNecessitamManutencao();
-        return caminhoes.stream()
-                .map(this::toKmDTO)
-                .collect(Collectors.toList());
+        return caminhoes.stream().map(this::toKmDTO).collect(Collectors.toList());
     }
 
     public List<CaminhaoKmDTO> verificarTrocaPneusPendentes() {
         List<CaminhaoKm> caminhoes = caminhaoKmRepository.findCaminhoesQueNecessitamTrocaPneus();
-        return caminhoes.stream()
-                .map(this::toKmDTO)
-                .collect(Collectors.toList());
+        return caminhoes.stream().map(this::toKmDTO).collect(Collectors.toList());
     }
 
     public CaminhaoKmDTO buscarStatusCaminhao(Long caminhaoId) {
-        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(caminhaoId)
-                .orElseThrow(() -> new EntityNotFoundException("Registro de KM não encontrado"));
+        CaminhaoKm caminhaoKm = caminhaoKmRepository.findByCaminhaoId(caminhaoId).orElseThrow(() -> new EntityNotFoundException("Registro de KM não encontrado"));
         return toKmDTO(caminhaoKm);
     }
 
     private ManutencaoDTO toDTO(Manutencao manutencao) {
-        return new ManutencaoDTO(
-                manutencao.getId(),
-                manutencao.getCaminhao().getId(),
-                manutencao.getTipo().name(),
-                manutencao.getKmRealizada(),
-                manutencao.getDataManutencao(),
-                manutencao.getCusto(),
-                manutencao.getObservacoes()
-        );
+        return new ManutencaoDTO(manutencao.getId(), manutencao.getCaminhao().getId(), manutencao.getTipo().name(), manutencao.getKmRealizada(), manutencao.getDataManutencao(), manutencao.getCusto(), manutencao.getObservacoes());
     }
 
     private CaminhaoKmDTO toKmDTO(CaminhaoKm caminhaoKm) {
-        return new CaminhaoKmDTO(
-                caminhaoKm.getId(),
-                caminhaoKm.getCaminhao().getId(),
-                caminhaoKm.getKmAtual(),
-                caminhaoKm.getKmUltimaManutencao(),
-                caminhaoKm.getKmUltimaTrocaPneus(),
-                caminhaoKm.getKmParaProximaManutencao(),
-                caminhaoKm.getKmParaProximaTrocaPneus(),
-                caminhaoKm.precisaManutencao(),
-                caminhaoKm.precisaTrocaPneus()
-        );
+        return new CaminhaoKmDTO(caminhaoKm.getId(), caminhaoKm.getCaminhao().getId(), caminhaoKm.getKmAtual(), caminhaoKm.getKmUltimaManutencao(), caminhaoKm.getKmUltimaTrocaPneus(), caminhaoKm.getKmParaProximaManutencao(), caminhaoKm.getKmParaProximaTrocaPneus(), caminhaoKm.precisaManutencao(), caminhaoKm.precisaTrocaPneus());
     }
+
 }

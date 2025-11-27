@@ -57,4 +57,5 @@ public class Percurso {
         }
         return 0.0;
     }
+
 }

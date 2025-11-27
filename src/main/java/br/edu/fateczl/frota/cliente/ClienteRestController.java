@@ -44,4 +44,5 @@ public class ClienteRestController {
         clienteService.excluir(id);
         return ResponseEntity.noContent().build();
     }
+
 }

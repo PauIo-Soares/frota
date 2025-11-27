@@ -56,4 +56,5 @@ public class CaminhaoKm {
         if (kmUltimaTrocaPneus == null) return kmAtual >= 70000.0;
         return (kmAtual - kmUltimaTrocaPneus) >= 70000.0;
     }
+
 }

@@ -3,6 +3,7 @@ package br.edu.fateczl.frota.entrega;
 import java.time.LocalDateTime;
 
 public record EntregaDTO(
+
         Long id,
         Long solicitacaoId,
         Long caminhaoId,
@@ -13,4 +14,5 @@ public record EntregaDTO(
         LocalDateTime dataProcessamento,
         LocalDateTime dataEmTransito,
         LocalDateTime dataEntregue
+
 ) {}

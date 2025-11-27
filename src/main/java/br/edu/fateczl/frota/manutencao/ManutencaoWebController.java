@@ -54,16 +54,15 @@ public class ManutencaoWebController {
     }
 
     @PostMapping("/registrar")
-    public String registrar(@Valid @ModelAttribute CriarManutencaoDTO dto,
-                            RedirectAttributes redirectAttributes) {
+    public String registrar(@Valid @ModelAttribute CriarManutencaoDTO dto, RedirectAttributes redirectAttributes) {
         try {
             ManutencaoDTO manutencao = manutencaoService.registrarManutencao(dto);
-            redirectAttributes.addFlashAttribute("message",
-                    "Manutenção registrada com sucesso!");
+            redirectAttributes.addFlashAttribute("message", "Manutenção registrada com sucesso!");
             return "redirect:/manutencao/caminhao/" + dto.caminhaoId();
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/manutencao/formulario";
         }
     }
+
 }
